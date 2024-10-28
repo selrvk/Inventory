@@ -10,6 +10,7 @@ module com.selrvk.inventory {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
 
     opens com.selrvk.inventory to javafx.fxml;
     exports com.selrvk.inventory;
