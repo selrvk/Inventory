@@ -36,6 +36,10 @@ public class Controller {
     private ScrollPane productsScrollPane;
     @FXML
     private TextField searchBar;
+    @FXML
+    private ComboBox sortByComboBox;
+    @FXML
+    private Button ascendingBtn;
 
     private ImageView image;
     private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
@@ -46,12 +50,12 @@ public class Controller {
     public void initialize(){
 
         printProducts();
+        printComboBoxContents();
 
         deleteProductBtn.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> productsCheckBoxes.stream().noneMatch(CheckBox::isSelected),
                 productsCheckBoxes.stream().map(CheckBox::selectedProperty).toArray(Observable[]::new)
         ));
-
     }
 
     public void addNewProduct(){
@@ -94,11 +98,12 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    public void searchProduct(){ dbManager.searchProduct(); }
     public void updateProduct(){ dbManager.updateProduct(); }
 
     public void printProducts(){
 
-        VBox productsVBox = new VBox(15);
+        VBox productsVBox = new VBox(20);
 
         List<Product> products = dbManager.getProducts();
 
@@ -121,11 +126,7 @@ public class Controller {
         Button uploadImageBtn = new Button("Upload Image");
         uploadImageBtn.setPrefSize(100,20);
 
-        uploadImageBtn.setOnAction(actionEvent -> {
-
-            uploadImage(actionEvent);
-
-        });
+        uploadImageBtn.setOnAction(this::uploadImage);
 
         this.nameInput = new TextField();
         nameInput.setPromptText("Name");
@@ -179,4 +180,11 @@ public class Controller {
 
         }
     }
+
+    public void printComboBoxContents(){
+
+
+
+    }
+
 }

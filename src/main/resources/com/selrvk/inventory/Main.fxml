@@ -1,28 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.Controller">
    <children>
-      <Rectangle fill="#eeeeee" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-      <Button fx:id="addNewBtn" layoutX="835.0" layoutY="55.0" mnemonicParsing="false" onAction="#addNewProduct" prefHeight="47.0" prefWidth="132.0" text="+ NEW">
-         <font>
-            <Font name="Franklin Gothic Demi" size="22.0" />
-         </font>
-      </Button>
+      <Rectangle fill="#222831" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
       <Rectangle fill="#222831" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="340.0" />
-      <Rectangle fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="873.0" />
+      <Rectangle fill="#363e4a" height="107.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="-10.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../selrvklogo.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="873.0" />
       <ScrollPane fx:id="productsScrollPane" layoutX="376.0" layoutY="225.0" prefHeight="496.0" prefWidth="873.0" />
-      <TextField fx:id="searchBar" layoutX="376.0" layoutY="55.0" prefHeight="47.0" prefWidth="418.0" />
-      <Button fx:id="deleteProductBtn" disable="true" layoutX="992.0" layoutY="55.0" mnemonicParsing="false" onAction="#deleteProduct" opacity="0.3" prefHeight="47.0" prefWidth="132.0" text="DELETE">
+      <TextField fx:id="searchBar" layoutX="395.0" layoutY="156.0" prefHeight="47.0" prefWidth="418.0" promptText="Search..." />
+      <Button fx:id="addNewProductBtn" layoutX="860.0" layoutY="156.0" mnemonicParsing="false" onAction="#addNewProduct" prefHeight="47.0" prefWidth="132.0" text="+ NEW">
          <font>
             <Font name="Franklin Gothic Demi" size="22.0" />
          </font>
       </Button>
+      <Button fx:id="deleteProductBtn" layoutX="1029.0" layoutY="156.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="47.0" prefWidth="132.0" text="DELETE">
+         <font>
+            <Font name="Franklin Gothic Demi" size="22.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="303.0" fitWidth="260.0" layoutX="97.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../ims.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#363e4a" height="582.0" layoutX="14.0" layoutY="121.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="312.0" />
+      <Label layoutX="55.0" layoutY="141.0" prefHeight="56.0" prefWidth="84.0" text="SORT BY" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Demi" size="22.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="sortByComboBox" layoutX="22.0" layoutY="191.0" prefWidth="150.0" />
+      <Button fx:id="ascendingBtn" layoutX="191.0" layoutY="186.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Ascending">
+         <font>
+            <Font name="Franklin Gothic Demi" size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="55.0" layoutY="240.0" prefHeight="70.0" prefWidth="68.0" text="FILTER" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Demi" size="22.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#494f57" height="56.0" layoutX="26.0" layoutY="304.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="293.0" />
+      <Label layoutX="36.0" layoutY="315.0" prefHeight="34.0" prefWidth="275.0" text="Stock                          -" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Demi" size="21.0" />
+         </font>
+      </Label>
+      <TextField layoutX="150.0" layoutY="316.0" prefHeight="34.0" prefWidth="61.0" />
+      <TextField layoutX="241.0" layoutY="316.0" prefHeight="34.0" prefWidth="61.0" />
    </children>
 </AnchorPane>

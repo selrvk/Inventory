@@ -35,7 +35,6 @@ public class DatabaseManager {
 
             System.out.println(e.getMessage());
         }
-
     }
 
     public void removeProduct(List<Integer> productIds){
@@ -60,6 +59,10 @@ public class DatabaseManager {
     }
 
     public void updateProduct(){
+
+    }
+
+    public void searchProduct(){
 
     }
 

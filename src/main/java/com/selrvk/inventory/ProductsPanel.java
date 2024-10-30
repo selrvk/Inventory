@@ -1,6 +1,7 @@
 package com.selrvk.inventory;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
@@ -26,10 +27,12 @@ public class ProductsPanel extends HBox {
 
     public void printComponents(){
 
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.setPadding(new Insets(5,0,0,30));
+
         this.productCheckBox = new CheckBox();
         this.productCheckBox.setUserData(product.getId());
 
-        this.setAlignment(Pos.CENTER);
         ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(product.getImg())));
         imageView.setFitHeight(100);
         imageView.setFitWidth(100);
