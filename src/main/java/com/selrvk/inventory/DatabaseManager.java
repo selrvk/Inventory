@@ -16,16 +16,50 @@ public class DatabaseManager {
 
     }
 
-    public void addNewProduct(){
+    public void addNewProduct(Product product){
+
+        String sql = "INSERT INTO products (image, name, stock, brand, shelf_location) VALUES (?,?,?,?,?)";
+
+        try(Connection connection = connect();
+            PreparedStatement prstm = connection.prepareStatement(sql)){
+
+            prstm.setBytes(1, product.getImg());
+            prstm.setString(2, product.getName());
+            prstm.setInt(3, product.getStock());
+            prstm.setString(4, product.getBrand());
+            prstm.setString(5, product.getLocation());
+
+            prstm.executeUpdate();
+
+        } catch (SQLException e){
+
+            System.out.println(e.getMessage());
+        }
 
     }
 
-    public void removeProduct(){
+    public void removeProduct(List<Integer> productIds){
 
+        String sql = "DELETE FROM products WHERE id = ?";
+
+        try(Connection connection = connect();
+            PreparedStatement prstm = connection.prepareStatement(sql)){
+
+            for(Integer id : productIds){
+
+                prstm.setInt(1, id);
+                prstm.addBatch();
+            }
+
+            prstm.executeBatch();
+
+        } catch (SQLException e){
+
+            System.out.println(e.getMessage());
+        }
     }
 
     public void updateProduct(){
-
 
     }
 
@@ -34,10 +68,9 @@ public class DatabaseManager {
         List<Product> products = new ArrayList<>();
         String sql = "SELECT * FROM products";
 
-        try {
+        try (Connection connection = connect();
+             Statement statement = connection.createStatement()){
 
-            Connection connection = connect();
-            Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
 
             while(rs.next()){
@@ -58,6 +91,7 @@ public class DatabaseManager {
 
             System.out.println(e.getMessage());
         }
+
         return products;
     }
 
