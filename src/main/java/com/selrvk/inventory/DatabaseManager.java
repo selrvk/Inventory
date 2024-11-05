@@ -11,7 +11,6 @@ public class DatabaseManager {
 
     public Connection connect() throws SQLException{
 
-        System.out.println("Connection made");
         return DriverManager.getConnection(dbURL);
 
     }
@@ -66,15 +65,19 @@ public class DatabaseManager {
 
     }
 
-    public List<Product> getProducts(){
+    public List<Product> getProducts(String sql, String... sParam){
 
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM products";
 
         try (Connection connection = connect();
-             Statement statement = connection.createStatement()){
+             PreparedStatement stmt = connection.prepareStatement(sql)){
 
-            ResultSet rs = statement.executeQuery(sql);
+            for (int i = 0; i < sParam.length; i++) {
+
+                stmt.setString(i + 1, sParam[i]);
+            }
+
+            ResultSet rs = stmt.executeQuery();
 
             while(rs.next()){
 
@@ -94,8 +97,6 @@ public class DatabaseManager {
 
             System.out.println(e.getMessage());
         }
-
         return products;
     }
-
 }

@@ -21,6 +21,7 @@ public class ProductsPanel extends HBox {
 
     public ProductsPanel(Product product){
 
+        this.getChildren().clear();
         this.product = product;
         printComponents();
     }

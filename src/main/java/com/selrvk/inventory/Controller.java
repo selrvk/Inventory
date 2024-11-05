@@ -15,6 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.synedra.validatorfx.Check;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
 import javafx.beans.*;
 import javafx.beans.binding.*;
@@ -37,38 +38,74 @@ public class Controller {
     @FXML
     private TextField searchBar;
     @FXML
-    private ComboBox sortByComboBox;
+    private ComboBox<String> sortByComboBox;
     @FXML
     private Button ascendingBtn;
+    @FXML
+    private Button descendingBtn;
 
-    private ImageView image;
-    private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
     private final DatabaseManager dbManager = new DatabaseManager();
+
+    private List<Integer> oldCheckBoxes;
+    private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
     private byte[] uploadImageBytes;
     private TextField nameInput, stockInput, brandInput, shelfInput;
-    
+    private boolean ascButtonActive = true;
+    private boolean initialized;
+    private String sortSQL = "SELECT * FROM products";
+
     public void initialize(){
 
-        printProducts();
-        printComboBoxContents();
+        keepCheckBoxes();
+        productsCheckBoxes.clear();
+        printProducts(sortSQL);
 
         deleteProductBtn.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> productsCheckBoxes.stream().noneMatch(CheckBox::isSelected),
                 productsCheckBoxes.stream().map(CheckBox::selectedProperty).toArray(Observable[]::new)
         ));
+
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            if(newValue != null && !newValue.isEmpty()) {
+
+                String searBarQuery = "SELECT * FROM products WHERE name LIKE ?";
+                printProducts(searBarQuery, "%" + newValue + "%");
+
+            } else {
+
+                printProducts(sortSQL);
+            }
+        });
+
+        ascendingBtn.setOnAction(e -> updateDescButton());
+        descendingBtn.setOnAction(e -> updateAscButton());
+        sortByComboBox.setOnAction(e -> sortProducts());
+
+        if(!initialized){
+            sortByComboBox.setItems(FXCollections.observableArrayList("id", "name", "stock", "brand"));
+            sortByComboBox.getSelectionModel().selectFirst();
+            updateAscButton();
+        }
+
+        reloadCheckBoxes();
+        initialized = true;
     }
 
     public void addNewProduct(){
 
         Optional<ButtonType> result = initializeAddProductComponents();
 
-        if(!nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !brandInput.getText().isBlank() && !shelfInput.getText().isBlank()) {
+        if(uploadImageBytes != null && !nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !brandInput.getText().isBlank() && !shelfInput.getText().isBlank()) {
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
                 dbManager.addNewProduct(new Product(uploadImageBytes, nameInput.getText(), Integer.parseInt(stockInput.getText()), brandInput.getText(), shelfInput.getText()));
-
                 initialize();
             }
+
+        } else {
+
+            showAlert("Incomplete Field");
         }
     }
 
@@ -79,14 +116,12 @@ public class Controller {
 
         for(CheckBox checkBox : productsCheckBoxes){
             for(Integer id : getSelectedProductIds()){
-
                 if(checkBox.getUserData() == id){
 
                     checkBoxesToRemove.add(checkBox);
                 }
             }
         }
-
         productsCheckBoxes.removeAll(checkBoxesToRemove);
         initialize();
     }
@@ -100,20 +135,29 @@ public class Controller {
 
     public void searchProduct(){ dbManager.searchProduct(); }
     public void updateProduct(){ dbManager.updateProduct(); }
+    public void sortProducts(){
 
-    public void printProducts(){
+        String sortCol = sortByComboBox.getValue();
+        String ascDesc = getActiveBtn();
+
+        sortSQL = "SELECT * FROM products ORDER BY " + sortCol + " " + ascDesc;
+
+        initialize();
+    }
+
+    public void printProducts(String sql, String... sParam){
 
         VBox productsVBox = new VBox(20);
 
-        List<Product> products = dbManager.getProducts();
+        List<Product> products = dbManager.getProducts(sql, sParam);
 
         for(Product product : products){
 
             ProductsPanel panel = new ProductsPanel(product);
             productsVBox.getChildren().add(panel);
             this.productsCheckBoxes.add(panel.getCheckBox());
-        }
 
+        }
         productsScrollPane.setContent(productsVBox);
     }
 
@@ -150,7 +194,6 @@ public class Controller {
         addNewProductAlert.getDialogPane().setContent(gridPane);
 
         return addNewProductAlert.showAndWait();
-
     }
 
     public void uploadImage(ActionEvent event){
@@ -161,7 +204,6 @@ public class Controller {
         fileChooser.getExtensionFilters().addAll(
 
             new FileChooser.ExtensionFilter("Image Files (*.png, *.jpg)", "*.png", "*.jpg")
-
         );
 
         chosenFile = fileChooser.showOpenDialog(stage);
@@ -177,14 +219,67 @@ public class Controller {
 
                 System.out.println(e.getMessage());
             }
-
         }
     }
 
-    public void printComboBoxContents(){
+    public void updateAscButton(){
 
-
-
+        ascendingBtn.setVisible(true);
+        ascendingBtn.setDisable(false);
+        descendingBtn.setVisible(false);
+        descendingBtn.setDisable(true);
+        ascButtonActive = true;
+        if(initialized){
+            sortProducts();
+        }
     }
 
+    public void updateDescButton(){
+
+        descendingBtn.setVisible(true);
+        descendingBtn.setDisable(false);
+        ascendingBtn.setVisible(false);
+        ascendingBtn.setDisable(true);
+        ascButtonActive = false;
+        if(initialized){
+            sortProducts();
+        }
+    }
+
+    public String getActiveBtn(){
+
+        if(ascButtonActive){
+            return "ASC";
+        } else {
+            return "DESC";
+        }
+    }
+
+    public void showAlert(String alertType){
+
+        if(alertType.equals("Incomplete Field")){
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Incomplete Fields");
+            alert.showAndWait();
+        }
+    }
+
+    public void keepCheckBoxes(){
+
+        this.oldCheckBoxes = getSelectedProductIds();
+    }
+
+    public void reloadCheckBoxes(){
+
+        for(CheckBox checkBoxes : productsCheckBoxes){
+            for(Integer checkBoxesToKeep : oldCheckBoxes){
+
+                if(checkBoxes.getUserData() == checkBoxesToKeep){
+                    checkBoxes.setSelected(true);
+                }
+            }
+        }
+    }
 }
