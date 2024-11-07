@@ -1,28 +1,21 @@
 package com.selrvk.inventory;
 
 import javafx.beans.Observable;
-import javafx.beans.binding.Binding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import net.synedra.validatorfx.Check;
-import org.kordamp.bootstrapfx.scene.layout.Panel;
-import javafx.beans.*;
 import javafx.beans.binding.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,50 +36,57 @@ public class Controller {
     private Button ascendingBtn;
     @FXML
     private Button descendingBtn;
+    @FXML
+    private TextField stockMin;
+    @FXML
+    private TextField stockMax;
+    @FXML
+    private Button filterBtn;
 
     private final DatabaseManager dbManager = new DatabaseManager();
-
     private List<Integer> oldCheckBoxes;
+    private final ObservableList<Button> updateButtons = FXCollections.observableArrayList();
     private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
     private byte[] uploadImageBytes;
     private TextField nameInput, stockInput, brandInput, shelfInput;
     private boolean ascButtonActive = true;
     private boolean initialized;
-    private String sortSQL = "SELECT * FROM products";
 
     public void initialize(){
 
+        if(!initialized){
+            sortByComboBox.setItems(FXCollections.observableArrayList("ID", "Name", "Stock", "Brand"));
+            sortByComboBox.getSelectionModel().selectFirst();
+            updateAscButton();
+        }
+
         keepCheckBoxes();
         productsCheckBoxes.clear();
-        printProducts(sortSQL);
+        printProducts();
 
         deleteProductBtn.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> productsCheckBoxes.stream().noneMatch(CheckBox::isSelected),
                 productsCheckBoxes.stream().map(CheckBox::selectedProperty).toArray(Observable[]::new)
         ));
-
+        stockMin.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if(!newValue.matches("\\d*")){
+                stockMin.setText(oldValue);
+            }
+        }));
+        stockMax.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if(!newValue.matches("\\d*")){
+                stockMax.setText(oldValue);
+            }
+        }));
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-
-            if(newValue != null && !newValue.isEmpty()) {
-
-                String searBarQuery = "SELECT * FROM products WHERE name LIKE ?";
-                printProducts(searBarQuery, "%" + newValue + "%");
-
-            } else {
-
-                printProducts(sortSQL);
+            if(newValue != null) {
+                printProducts();
             }
         });
 
         ascendingBtn.setOnAction(e -> updateDescButton());
         descendingBtn.setOnAction(e -> updateAscButton());
         sortByComboBox.setOnAction(e -> sortProducts());
-
-        if(!initialized){
-            sortByComboBox.setItems(FXCollections.observableArrayList("id", "name", "stock", "brand"));
-            sortByComboBox.getSelectionModel().selectFirst();
-            updateAscButton();
-        }
 
         reloadCheckBoxes();
         initialized = true;
@@ -98,11 +98,10 @@ public class Controller {
 
         if(uploadImageBytes != null && !nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !brandInput.getText().isBlank() && !shelfInput.getText().isBlank()) {
             if (result.isPresent() && result.get() == ButtonType.OK) {
-
+                
                 dbManager.addNewProduct(new Product(uploadImageBytes, nameInput.getText(), Integer.parseInt(stockInput.getText()), brandInput.getText(), shelfInput.getText()));
                 initialize();
             }
-
         } else {
 
             showAlert("Incomplete Field");
@@ -134,29 +133,29 @@ public class Controller {
     }
 
     public void searchProduct(){ dbManager.searchProduct(); }
-    public void updateProduct(){ dbManager.updateProduct(); }
+    public void updateProduct(int idToUpdate){
+
+        dbManager.updateProduct(idToUpdate);
+    }
     public void sortProducts(){
-
-        String sortCol = sortByComboBox.getValue();
-        String ascDesc = getActiveBtn();
-
-        sortSQL = "SELECT * FROM products ORDER BY " + sortCol + " " + ascDesc;
 
         initialize();
     }
 
-    public void printProducts(String sql, String... sParam){
+    public void printProducts(){
 
         VBox productsVBox = new VBox(20);
 
-        List<Product> products = dbManager.getProducts(sql, sParam);
+        String query = "SELECT * FROM products WHERE name LIKE ? AND stock BETWEEN ? AND ? ORDER BY " + sortByComboBox.getValue().toLowerCase() + " " + getActiveBtn();
+        List<Product> products = dbManager.getProducts(query, getSearchBar(), getMinStockFilter(), getMaxStockFilter());
 
         for(Product product : products){
 
             ProductsPanel panel = new ProductsPanel(product);
             productsVBox.getChildren().add(panel);
             this.productsCheckBoxes.add(panel.getCheckBox());
-
+            this.updateButtons.add(panel.getUpdateButton());
+            panel.getUpdateButton().setOnAction(e -> { updateProduct((Integer) panel.getUpdateButton().getUserData()); });
         }
         productsScrollPane.setContent(productsVBox);
     }
@@ -263,6 +262,38 @@ public class Controller {
             alert.setTitle("Error");
             alert.setHeaderText("Incomplete Fields");
             alert.showAndWait();
+        }
+    }
+
+    public void applyFilters(){
+
+        initialize();
+    }
+
+    public String getSearchBar(){
+
+        if(searchBar.getText().isBlank()){
+            return "%";
+        } else {
+            return "%" + searchBar.getText() + "%";
+        }
+    }
+
+    public int getMinStockFilter(){
+
+        if(stockMin.getText().isBlank()){
+            return 0;
+        } else {
+            return Integer.parseInt(stockMin.getText());
+        }
+    }
+
+    public int getMaxStockFilter(){
+
+        if(stockMax.getText().isBlank()){
+            return 9999999;
+        } else {
+            return Integer.parseInt(stockMax.getText());
         }
     }
 

@@ -4,8 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -18,6 +17,7 @@ public class ProductsPanel extends HBox {
 
     private final Product product;
     private CheckBox productCheckBox;
+    private Button updateButton;
 
     public ProductsPanel(Product product){
 
@@ -34,6 +34,9 @@ public class ProductsPanel extends HBox {
         this.productCheckBox = new CheckBox();
         this.productCheckBox.setUserData(product.getId());
 
+        this.updateButton = new Button("Update");
+        this.updateButton.setUserData((product.getId()));
+
         ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(product.getImg())));
         imageView.setFitHeight(100);
         imageView.setFitWidth(100);
@@ -45,12 +48,10 @@ public class ProductsPanel extends HBox {
         Label stockLabel = new Label("Stock: " + product.getStock());
         stockLabel.setFont(new Font("Montserrat", 20));
 
-        this.getChildren().addAll(productCheckBox, imageView, idLabel, nameLabel, stockLabel);
+        this.getChildren().addAll(productCheckBox, imageView, idLabel, nameLabel, stockLabel, updateButton);
         this.setSpacing(20);
     }
 
-    public CheckBox getCheckBox(){
-
-        return this.productCheckBox;
-    }
+    public CheckBox getCheckBox(){ return this.productCheckBox; }
+    public Button getUpdateButton(){ return this.updateButton; }
 }

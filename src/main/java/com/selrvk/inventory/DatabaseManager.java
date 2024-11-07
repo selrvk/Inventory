@@ -1,8 +1,6 @@
 package com.selrvk.inventory;
 
 import java.sql.*;
-import java.io.*;
-import java.io.File.*;
 import java.util.*;
 
 public class DatabaseManager {
@@ -17,10 +15,10 @@ public class DatabaseManager {
 
     public void addNewProduct(Product product){
 
-        String sql = "INSERT INTO products (image, name, stock, brand, shelf_location) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO products (image, name, stock, brand, shelf_location) VALUES (?,?,?,?,?)";
 
         try(Connection connection = connect();
-            PreparedStatement prstm = connection.prepareStatement(sql)){
+            PreparedStatement prstm = connection.prepareStatement(query)){
 
             prstm.setBytes(1, product.getImg());
             prstm.setString(2, product.getName());
@@ -38,10 +36,10 @@ public class DatabaseManager {
 
     public void removeProduct(List<Integer> productIds){
 
-        String sql = "DELETE FROM products WHERE id = ?";
+        String query = "DELETE FROM products WHERE id = ?";
 
         try(Connection connection = connect();
-            PreparedStatement prstm = connection.prepareStatement(sql)){
+            PreparedStatement prstm = connection.prepareStatement(query)){
 
             for(Integer id : productIds){
 
@@ -57,7 +55,19 @@ public class DatabaseManager {
         }
     }
 
-    public void updateProduct(){
+    public void updateProduct(int id){
+
+        String query = "UPDATE products SET image = ?, name = ?, stock = ?, brand = ?, shelf_location = ?";
+
+        try(Connection connection = connect();
+            PreparedStatement stmt = connection.prepareStatement(query)){
+
+            stmt.setInt(1 , id);
+
+        } catch (SQLException e){
+
+            System.out.println(e.getMessage());
+        }
 
     }
 
@@ -65,17 +75,16 @@ public class DatabaseManager {
 
     }
 
-    public List<Product> getProducts(String sql, String... sParam){
+    public List<Product> getProducts(String sql, String sLike, int iMin, int iMax){
 
         List<Product> products = new ArrayList<>();
 
         try (Connection connection = connect();
              PreparedStatement stmt = connection.prepareStatement(sql)){
 
-            for (int i = 0; i < sParam.length; i++) {
-
-                stmt.setString(i + 1, sParam[i]);
-            }
+            stmt.setString(1, sLike);
+            stmt.setInt(2, iMin);
+            stmt.setInt(3, iMax);
 
             ResultSet rs = stmt.executeQuery();
 

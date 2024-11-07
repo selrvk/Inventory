@@ -67,7 +67,12 @@
             <Font name="Franklin Gothic Demi" size="21.0" />
          </font>
       </Label>
-      <TextField layoutX="150.0" layoutY="316.0" prefHeight="34.0" prefWidth="61.0" />
-      <TextField layoutX="241.0" layoutY="316.0" prefHeight="34.0" prefWidth="61.0" />
+      <TextField fx:id="stockMin" layoutX="150.0" layoutY="316.0" prefHeight="34.0" prefWidth="61.0" promptText="Min" />
+      <TextField fx:id="stockMax" layoutX="241.0" layoutY="316.0" prefHeight="34.0" prefWidth="61.0" promptText="Max" />
+      <Button fx:id="filterBtn" layoutX="24.0" layoutY="649.0" mnemonicParsing="false" onAction="#applyFilters" prefHeight="25.0" prefWidth="293.0" text="Apply Filters">
+         <font>
+            <Font name="Franklin Gothic Demi" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
