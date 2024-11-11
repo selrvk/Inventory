@@ -6,14 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.Objects;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("Main.FXML"));
-        stage.setTitle("Inventory");
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.FXML")));
+        stage.setTitle("Login Page");
         stage.setScene(new Scene(root));
         stage.show();
     }

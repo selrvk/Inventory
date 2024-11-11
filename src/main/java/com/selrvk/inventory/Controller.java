@@ -52,6 +52,8 @@ public class Controller {
     private boolean ascButtonActive = true;
     private boolean initialized;
 
+    // add login page, change jdbc string connection, and modify query strings
+    // add a verification per update, could be another db holding the update strings
     public void initialize(){
 
         if(!initialized){
@@ -132,11 +134,19 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
-    public void searchProduct(){ dbManager.searchProduct(); }
     public void updateProduct(int idToUpdate){
+
 
         dbManager.updateProduct(idToUpdate);
     }
+
+    public void initializeUpdateProductComponents(){
+
+        // copy initializeaddproductscomponents
+        // set prompt text to the current values of the product
+        // send values to updateproduct (seperately or via product object)
+    }
+
     public void sortProducts(){
 
         initialize();
@@ -266,7 +276,6 @@ public class Controller {
     }
 
     public void applyFilters(){
-
         initialize();
     }
 
