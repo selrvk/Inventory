@@ -5,12 +5,13 @@ import java.util.*;
 
 public class DatabaseManager {
 
-    private final String dbURL = "jdbc:sqlite:inventorydb.db";
+    private final String dbURL = "jdbc:mysql://localhost:3306/inventory";
+    private final String user = "root";
+    private final String password = "1105";
 
     public Connection connect() throws SQLException{
 
-        return DriverManager.getConnection(dbURL);
-
+        return DriverManager.getConnection(dbURL, user, password);
     }
 
     public void addNewProduct(Product product){

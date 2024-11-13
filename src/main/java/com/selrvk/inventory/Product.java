@@ -17,7 +17,6 @@ public class Product {
         this.stock = stock;
         this.brand = brand;
         this.shelfLocation = shelfLocation;
-
     }
 
     public Product(byte[] img,String name, int stock, String brand, String shelfLocation){
