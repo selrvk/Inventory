@@ -5,13 +5,16 @@ import java.util.*;
 
 public class DatabaseManager {
 
-    private final String dbURL = "jdbc:mysql://localhost:3306/inventory";
-    private final String user = "root";
-    private final String password = "1105";
+    private static String username , password;
 
     public Connection connect() throws SQLException{
+        String dbURL = "jdbc:mysql://localhost:3306/inventory";
+        return DriverManager.getConnection(dbURL, username, password);
+    }
 
-        return DriverManager.getConnection(dbURL, user, password);
+    public Connection verifyConnection(String url, String un, String pw) throws SQLException{
+
+        return DriverManager.getConnection(url, un, pw);
     }
 
     public void addNewProduct(Product product){
@@ -56,23 +59,26 @@ public class DatabaseManager {
         }
     }
 
-    public void updateProduct(int id){
+    public void updateProduct(Product product){
 
-        String query = "UPDATE products SET image = ?, name = ?, stock = ?, brand = ?, shelf_location = ?";
+        String query = "UPDATE products SET image = ?, name = ?, stock = ?, brand = ?, shelf_location = ? WHERE id = ?";
 
         try(Connection connection = connect();
             PreparedStatement stmt = connection.prepareStatement(query)){
 
-            stmt.setInt(1 , id);
+            stmt.setBytes(1 , product.getImg());
+            stmt.setString(2, product.getName());
+            stmt.setInt(3, product.getStock());
+            stmt.setString(4, product.getBrand());
+            stmt.setString(5, product.getLocation());
+            stmt.setInt(6, product.getId());
+
+            stmt.executeUpdate();
 
         } catch (SQLException e){
 
             System.out.println(e.getMessage());
         }
-
-    }
-
-    public void searchProduct(){
 
     }
 
@@ -109,4 +115,38 @@ public class DatabaseManager {
         }
         return products;
     }
+
+    public Product getProduct(int id){
+
+        String sql = "SELECT * FROM products WHERE id = ?";
+
+        try(Connection connection = connect();
+            PreparedStatement stmt = connection.prepareStatement(sql)){
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+
+                return new Product(
+                        rs.getInt("id"),
+                        rs.getBytes("image"),
+                        rs.getString("name"),
+                        rs.getInt("stock"),
+                        rs.getString("brand"),
+                        rs.getString("shelf_location")
+                );
+            }
+
+        } catch (SQLException e){
+
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void setUsername(String username){ DatabaseManager.username = username; }
+
+    public void setPassword(String password){ DatabaseManager.password = password; }
 }

@@ -5,22 +5,48 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.*;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class LoginController {
 
     @FXML
     private Button loginBtn;
+    @FXML
+    private TextField usernameInput;
+    @FXML
+    private TextField passwordInput;
+
+    private final Controller controller = new Controller();
+    private final DatabaseManager dbManager = new DatabaseManager();
 
     public void login() throws Exception{
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.FXML")));
-        Stage stage = (Stage) loginBtn.getScene().getWindow();
-        stage.setTitle("Main Page");
-        stage.setScene(new Scene(root));
-        stage.show();
+        String dbURL = "jdbc:mysql://localhost:3306/inventory";
+        try(Connection con = dbManager.verifyConnection(dbURL, usernameInput.getText(), passwordInput.getText())){
 
+            setUsername();
+            setPassword();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.FXML")));
+            Stage stage = (Stage) loginBtn.getScene().getWindow();
+            stage.setTitle("Main Page");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void setUsername(){
+        controller.setUsername(usernameInput.getText());
+    }
+
+    public void setPassword(){
+        controller.setPassword(passwordInput.getText());
     }
 }

@@ -3,11 +3,11 @@ package com.selrvk.inventory;
 public class Product {
 
     private final int id;
-    private final byte[] img;
-    private final String name;
-    private final int stock;
-    private final String brand;
-    private final String shelfLocation;
+    private byte[] img;
+    private String name;
+    private int stock;
+    private String brand;
+    private String shelfLocation;
 
     public Product(int id, byte[] img, String name, int stock, String brand, String shelfLocation){
 
@@ -35,5 +35,10 @@ public class Product {
     public int getStock(){ return stock; }
     public String getBrand(){ return brand; }
     public String getLocation(){ return shelfLocation; }
+    public void setName(String name){ this.name = name; }
+    public void setImg(byte[] img){ this.img = img; }
+    public void setStock(int stock){ this.stock = stock; }
+    public void setBrand(String brand){ this.brand = brand; }
+    public void setShelfLocation(String shelfLocation){ this.shelfLocation = shelfLocation; }
 
 }

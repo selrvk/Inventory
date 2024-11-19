@@ -1,15 +1,12 @@
 package com.selrvk.inventory;
-import javafx.beans.Observable;
-import javafx.collections.FXCollections;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import java.util.*;
 
 import java.io.ByteArrayInputStream;
 
