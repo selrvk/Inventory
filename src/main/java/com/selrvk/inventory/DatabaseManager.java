@@ -8,7 +8,7 @@ public class DatabaseManager {
     private static String username , password;
 
     public Connection connect() throws SQLException{
-        String dbURL = "jdbc:mysql://localhost:3306/inventory";
+        String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
         return DriverManager.getConnection(dbURL, username, password);
     }
 
@@ -19,7 +19,7 @@ public class DatabaseManager {
 
     public void addNewProduct(Product product){
 
-        String query = "INSERT INTO products (image, name, stock, brand, shelf_location) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO products (image, name, stock, srp, buying_price, manufacturer) VALUES (?,?,?,?,?,?)";
 
         try(Connection connection = connect();
             PreparedStatement prstm = connection.prepareStatement(query)){
@@ -27,8 +27,9 @@ public class DatabaseManager {
             prstm.setBytes(1, product.getImg());
             prstm.setString(2, product.getName());
             prstm.setInt(3, product.getStock());
-            prstm.setString(4, product.getBrand());
-            prstm.setString(5, product.getLocation());
+            prstm.setInt(4, product.getSrp());
+            prstm.setInt(5, product.getBuyingPrice());
+            prstm.setString(6, product.getManufacturer());
 
             prstm.executeUpdate();
 
@@ -61,7 +62,7 @@ public class DatabaseManager {
 
     public void updateProduct(Product product){
 
-        String query = "UPDATE products SET image = ?, name = ?, stock = ?, brand = ?, shelf_location = ? WHERE id = ?";
+        String query = "UPDATE products SET image = ?, name = ?, stock = ?, srp = ?, buying_price = ?, manufacturer = ? WHERE id = ?";
 
         try(Connection connection = connect();
             PreparedStatement stmt = connection.prepareStatement(query)){
@@ -69,9 +70,10 @@ public class DatabaseManager {
             stmt.setBytes(1 , product.getImg());
             stmt.setString(2, product.getName());
             stmt.setInt(3, product.getStock());
-            stmt.setString(4, product.getBrand());
-            stmt.setString(5, product.getLocation());
-            stmt.setInt(6, product.getId());
+            stmt.setInt(4, product.getSrp() );
+            stmt.setInt(5, product.getBuyingPrice());
+            stmt.setString(6, product.getManufacturer());
+            stmt.setInt(7, product.getId());
 
             stmt.executeUpdate();
 
@@ -102,8 +104,9 @@ public class DatabaseManager {
                         rs.getBytes("image"),
                         rs.getString("name"),
                         rs.getInt("stock"),
-                        rs.getString("brand"),
-                        rs.getString("shelf_location")
+                        rs.getInt("srp"),
+                        rs.getInt("buying_price"),
+                        rs.getString("manufacturer")
                 );
 
                 products.add(product);
@@ -133,8 +136,9 @@ public class DatabaseManager {
                         rs.getBytes("image"),
                         rs.getString("name"),
                         rs.getInt("stock"),
-                        rs.getString("brand"),
-                        rs.getString("shelf_location")
+                        rs.getInt("srp"),
+                        rs.getInt("buying_price"),
+                        rs.getString("manufacturer")
                 );
             }
 

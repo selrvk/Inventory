@@ -44,8 +44,12 @@ public class ProductsPanel extends HBox {
         nameLabel.setFont(new Font("Montserrat", 20));
         Label stockLabel = new Label("Stock: " + product.getStock());
         stockLabel.setFont(new Font("Montserrat", 20));
+        Label srpLabel = new Label("SRP: " + product.getSrp());
+        srpLabel.setFont(new Font("Montserrat", 20));
+        Label buyingPriceLabel = new Label("Buying Price: " + product.getBuyingPrice());
+        buyingPriceLabel.setFont(new Font("Montserrat", 20));
 
-        this.getChildren().addAll(productCheckBox, imageView, idLabel, nameLabel, stockLabel, updateButton);
+        this.getChildren().addAll(productCheckBox, imageView, idLabel, nameLabel, stockLabel, srpLabel, buyingPriceLabel, updateButton);
         this.setSpacing(20);
     }
 

@@ -24,9 +24,15 @@ public class LoginController {
     private final Controller controller = new Controller();
     private final DatabaseManager dbManager = new DatabaseManager();
 
+    /*
+    void login()
+    Passes the string dbURL into class DatabaseManager verifyConnection() to check
+    if the input username and password is valid.
+    - Calls setUsername() and setPassword() if the inputs provided are valid.
+     */
     public void login() throws Exception{
 
-        String dbURL = "jdbc:mysql://localhost:3306/inventory";
+        String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
         try(Connection con = dbManager.verifyConnection(dbURL, usernameInput.getText(), passwordInput.getText())){
 
             setUsername();
@@ -42,10 +48,18 @@ public class LoginController {
         }
     }
 
+    /*
+    void setUsername()
+    Gets and passes the input username string into class Controller setUsername().
+     */
     public void setUsername(){
         controller.setUsername(usernameInput.getText());
     }
 
+    /*
+    void setPassword()
+    Gets and passes the input password string into class Controller setPassword().
+     */
     public void setPassword(){
         controller.setPassword(passwordInput.getText());
     }

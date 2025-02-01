@@ -5,7 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,6 +44,8 @@ public class Controller {
     private TextField stockMin;
     @FXML
     private TextField stockMax;
+    @FXML
+    private Button pendingOrdersButton;
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
@@ -48,14 +53,24 @@ public class Controller {
     private final ObservableList<Button> updateButtons = FXCollections.observableArrayList();
     private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
     private byte[] uploadImageBytes;
-    private TextField nameInput, stockInput, brandInput, shelfInput;
+    private TextField nameInput, stockInput, srpInput, buyingPriceInput, manufacturerInput;
     private boolean ascButtonActive = true;
     private boolean initialized;
 
+    /*
+    Initializes components including:
+        sortByComboBox
+        CheckBoxes
+        deleteProductBtn
+        stockMin, stockMax
+        searchBar
+        ascendingBtn, descendingBtn
+     - Called by default
+     */
     public void initialize(){
 
         if(!initialized){
-            sortByComboBox.setItems(FXCollections.observableArrayList("ID", "Name", "Stock", "Brand"));
+            sortByComboBox.setItems(FXCollections.observableArrayList("ID", "Name", "Stock", "Manufacturer"));
             sortByComboBox.getSelectionModel().selectFirst();
             updateAscButton();
         }
@@ -87,19 +102,31 @@ public class Controller {
         ascendingBtn.setOnAction(e -> updateDescButton());
         descendingBtn.setOnAction(e -> updateAscButton());
         sortByComboBox.setOnAction(e -> sortProducts());
+        pendingOrdersButton.setOnAction(e -> openPendingOrders());
 
         reloadCheckBoxes();
         initialized = true;
     }
 
+    /*
+    void addNewProduct()
+    @param uploadImageBytes, nameInput, stockInput, brandInput, shelfInput
+    Adds a new product to the database.
+    Passes proper Product parameters.
+    - Calls initializeAddProductComponents().
+    - Calls DatabaseManager addNewProduct(*Product parameters*).
+    - Calls initialize().
+    -- Called by FXML.
+     */
     public void addNewProduct(){
 
+        // Called the method which creates an Add Product panel.
         Optional<ButtonType> result = initializeAddProductComponents();
 
-        if(uploadImageBytes != null && !nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !brandInput.getText().isBlank() && !shelfInput.getText().isBlank()) {
+        if(uploadImageBytes != null && !nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !manufacturerInput.getText().isBlank()) {
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
-                dbManager.addNewProduct(new Product(uploadImageBytes, nameInput.getText(), Integer.parseInt(stockInput.getText()), brandInput.getText(), shelfInput.getText()));
+                dbManager.addNewProduct(new Product(uploadImageBytes, nameInput.getText(), Integer.parseInt(stockInput.getText()), Integer.parseInt(srpInput.getText()), Integer.parseInt(buyingPriceInput.getText()),manufacturerInput.getText()));
                 initialize();
             } else if(result.isPresent() && result.get() == ButtonType.CANCEL) {
                 showAlert("Cancelled Request");
@@ -109,6 +136,15 @@ public class Controller {
         }
     }
 
+    /*
+    void deleteProduct()
+    @param productsCheckBoxes
+    Deletes selected item(s) from the database.
+    - Calls DatabaseManager removeProduct(getSelectedProductIds()).
+    - Calls getSelectedProductIds().
+    - Calls initialize().
+    -- Called by FXML.
+     */
     public void deleteProduct(){
 
         List<CheckBox> checkBoxesToRemove = new ArrayList<>();
@@ -126,6 +162,12 @@ public class Controller {
         initialize();
     }
 
+    /*
+    List<Integer> getSelectedProductIds()
+    @param productsCheckBoxes
+    Gets all the selected products from ObsList productsCheckBoxes.
+    -- Called by deleteProduct() , keepCheckBoxes().
+     */
     public List<Integer> getSelectedProductIds() {
         return productsCheckBoxes.stream()
                 .filter(CheckBox::isSelected)
@@ -133,19 +175,32 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    /*
+    void updateProduct()
+    @param idToUpdate, nameInput, uploadImageBytes, stockInput, brandInput, shelfInput
+    Updates a product, given a product ID.
+    - Calls DatabaseManage getProduct(idToUpdate).
+    - Calls initializeUpdateProductComponents(product).
+    -- Called by FXML.
+     */
     public void updateProduct(int idToUpdate){
 
-        System.out.println("ID TO UPDATE : " + idToUpdate);
         Product product = dbManager.getProduct(idToUpdate);
         Optional<ButtonType> result = initializeUpdateProductComponents(product);
 
         if(result.isPresent() && result.get().equals(ButtonType.OK)){
 
-            product.setName(nameInput.getText());
+            if(!(nameInput.getText().isBlank())){
+                product.setName(nameInput.getText());
+            }
+            if(!(stockInput.getText().isBlank())){
+                product.setStock(Integer.parseInt(stockInput.getText()));
+            }
+            if(!(manufacturerInput.getText().isBlank())){
+                product.setStock(Integer.parseInt(manufacturerInput.getText()));
+            }
+
             product.setImg(uploadImageBytes);
-            product.setStock(Integer.parseInt(stockInput.getText()));
-            product.setBrand(brandInput.getText());
-            product.setShelfLocation(shelfInput.getText());
             dbManager.updateProduct(product);
             initialize();
 
@@ -154,6 +209,13 @@ public class Controller {
         }
     }
 
+    /*
+    Optional<ButtonType> initializeUpdateProductComponents(Product product)
+    @param product, uploadImageBytes, nameInput, stockInput, brandInput, shelfInput.
+    The panel which creates and holds components for updating products.
+    - Calls Product getImg().
+    -- Called by updateProduct(int idToUpdate).
+     */
     public Optional<ButtonType> initializeUpdateProductComponents(Product product){
 
         ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(product.getImg())));
@@ -176,29 +238,42 @@ public class Controller {
         this.stockInput = new TextField();
         stockInput.setPromptText("" + product.getStock());
 
-        this.brandInput = new TextField();
-        brandInput.setPromptText(product.getBrand());
-
-        this.shelfInput = new TextField();
-        shelfInput.setPromptText(product.getLocation());
+        this.manufacturerInput = new TextField();
+        manufacturerInput.setPromptText(product.getManufacturer());
 
         GridPane gridPane = new GridPane();
         gridPane.add(imageView, 0, 1);
         gridPane.add(uploadImageBtn, 0, 2);
         gridPane.add(nameInput, 1 , 1);
         gridPane.add(stockInput, 1 , 2);
-        gridPane.add(brandInput, 2, 1);
-        gridPane.add(shelfInput, 2, 2);
+        gridPane.add(manufacturerInput, 2, 1);
 
         addNewProductAlert.getDialogPane().setContent(gridPane);
         return addNewProductAlert.showAndWait();
     }
 
+    /*
+    void sortProducts()
+    Sorts products, ascending or descending.
+    - Calls initialize().
+    -- Called by updateAscButton().
+    -- Called by updateDescButton().
+     */
     public void sortProducts(){
 
         initialize();
     }
 
+    /*
+    void printProducts()
+    @param productsCheckBoxes, updateButtons, productsScrollPane
+    Passes in a modifiable query, printing the products, initializing buttons and actions
+    and adding it all into a panel.
+    - Calls DatabaseManager getProducts(query).
+    - Calls ProductsPanel getCheckBox().
+    - Calls ProductsPanel getUpdateButton().
+    -- Called by initialize().
+     */
     public void printProducts(){
 
         VBox productsVBox = new VBox(20);
@@ -217,6 +292,12 @@ public class Controller {
         productsScrollPane.setContent(productsVBox);
     }
 
+    /*
+    Optional<ButtonType> initializeAddProductComponents()
+    @param nameInput, stockInput, brandInput, shelfInput
+    The panel which creates and holds components for adding products.
+    -- Called by addNewProduct().
+     */
     public Optional<ButtonType> initializeAddProductComponents(){
 
         ImageView imageView = new ImageView();
@@ -238,24 +319,34 @@ public class Controller {
         this.stockInput = new TextField();
         stockInput.setPromptText("Stock");
 
-        this.brandInput = new TextField();
-        brandInput.setPromptText("Brand");
+        this.srpInput = new TextField();
+        srpInput.setPromptText("SRP");
 
-        this.shelfInput = new TextField();
-        shelfInput.setPromptText("Shelf Location");
+        this.buyingPriceInput = new TextField();
+        buyingPriceInput.setPromptText("Buying Price");
+
+        this.manufacturerInput = new TextField();
+        manufacturerInput.setPromptText("Manufacturer");
 
         GridPane gridPane = new GridPane();
         gridPane.add(imageView, 0, 1);
         gridPane.add(uploadImageBtn, 0, 2);
         gridPane.add(nameInput, 1 , 1);
         gridPane.add(stockInput, 1 , 2);
-        gridPane.add(brandInput, 2, 1);
-        gridPane.add(shelfInput, 2, 2);
+        gridPane.add(srpInput, 2, 1);
+        gridPane.add(buyingPriceInput, 2 , 2);
+        gridPane.add(manufacturerInput, 3, 1);
 
         addNewProductAlert.getDialogPane().setContent(gridPane);
         return addNewProductAlert.showAndWait();
     }
 
+    /*
+    Image uploadImage(ActionEvent event)
+    @param uploadImageBytes
+    Handles uploading images for product usage.
+    -- Called by FXML.
+     */
     public Image uploadImage(ActionEvent event){
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -280,6 +371,13 @@ public class Controller {
         return image;
     }
 
+    /*
+    void updateAscButton()
+    @param ascendingBtn, descendingBtn
+    Handles toggling ascending button for sorting.
+    - Calls sortProducts().
+    -- Called by FXML.
+     */
     public void updateAscButton(){
 
         ascendingBtn.setVisible(true);
@@ -291,7 +389,13 @@ public class Controller {
             sortProducts();
         }
     }
-
+    /*
+    void updateDescButton()
+    @param ascendingBtn, descendingBtn
+    Handles toggling descending button for sorting.
+    - Calls sortProducts().
+    -- Called by FXML.
+     */
     public void updateDescButton(){
 
         descendingBtn.setVisible(true);
@@ -304,6 +408,12 @@ public class Controller {
         }
     }
 
+    /*
+    String getActiveBtn()
+    @param ascButtonActive
+    Gets which button is active, determining how the printed products will be sorted.
+    -- Called by printProducts().
+     */
     public String getActiveBtn(){
 
         if(ascButtonActive){
@@ -313,6 +423,11 @@ public class Controller {
         }
     }
 
+    /*
+    void showAlert(String alertType)
+    Handles what type of alert to show.
+    - Called by addNewProduct().
+     */
     public void showAlert(String alertType){
 
         if(alertType.equals("Incomplete Field")){
@@ -361,11 +476,24 @@ public class Controller {
         }
     }
 
+    /*
+    void keepCheckBoxes()
+    @param oldCheckBoxes
+    Gets the currently selected products and adds them to a list.
+    -- Called by initialize().
+     */
     public void keepCheckBoxes(){
 
         this.oldCheckBoxes = getSelectedProductIds();
     }
 
+    /*
+    void reloadCheckBoxes()
+    @param productsCheckBoxes, oldCheckBoxes
+    Reloads all selected checkBoxes so that they are selected again
+    when item filters are applied.
+    -- Called by initialize().
+     */
     public void reloadCheckBoxes(){
 
         for(CheckBox checkBoxes : productsCheckBoxes){
@@ -378,11 +506,36 @@ public class Controller {
         }
     }
 
+    /*
+    void setUsername()
+    Sets the username for input verification.
+    -- Called in LoginController setUsername().
+     */
     public void setUsername(String username){
         dbManager.setUsername(username);
     }
 
+    /*
+    void setPassword()
+    Sets the password for input verification.
+    -- Called in LoginController setPassword().
+     */
     public void setPassword(String password){
         dbManager.setPassword(password);
+    }
+
+    public void openPendingOrders(){
+
+        try {
+
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Orders.FXML")));
+            Stage stage = (Stage) pendingOrdersButton.getScene().getWindow();
+            stage.setTitle("Main Page");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
