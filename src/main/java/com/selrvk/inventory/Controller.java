@@ -46,6 +46,8 @@ public class Controller {
     private TextField stockMax;
     @FXML
     private Button pendingOrdersButton;
+    @FXML
+    private Button orderHistoryButton;
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
@@ -103,6 +105,7 @@ public class Controller {
         descendingBtn.setOnAction(e -> updateAscButton());
         sortByComboBox.setOnAction(e -> sortProducts());
         pendingOrdersButton.setOnAction(e -> openPendingOrders());
+        orderHistoryButton.setOnAction(e -> openOrderHistory());
 
         reloadCheckBoxes();
         initialized = true;
@@ -530,7 +533,22 @@ public class Controller {
 
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Orders.FXML")));
             Stage stage = (Stage) pendingOrdersButton.getScene().getWindow();
-            stage.setTitle("Main Page");
+            stage.setTitle("Pending Orders");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void openOrderHistory(){
+
+        try {
+
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrderHistory.FXML")));
+            Stage stage = (Stage) orderHistoryButton.getScene().getWindow();
+            stage.setTitle("Order History");
             stage.setScene(new Scene(root));
             stage.show();
 

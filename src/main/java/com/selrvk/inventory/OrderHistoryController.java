@@ -10,19 +10,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class OrdersController {
+public class OrderHistoryController {
 
+    @FXML
+    private Button pendingOrdersButton;
     @FXML
     private Button inventoryButton;
     @FXML
-    private Button orderHistoryButton;
-    @FXML
-    private ScrollPane ordersScrollPane;
+    private ScrollPane orderHistoryScrollPane;
 
     public void initialize(){
 
         inventoryButton.setOnAction(e -> openInventory());
-        orderHistoryButton.setOnAction(e -> openOrderHistory());
+        pendingOrdersButton.setOnAction(e -> openPendingOrders());
     }
 
     public void openInventory(){
@@ -40,13 +40,13 @@ public class OrdersController {
         }
     }
 
-    public void openOrderHistory(){
+    public void openPendingOrders(){
 
         try {
 
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrderHistory.FXML")));
-            Stage stage = (Stage) orderHistoryButton.getScene().getWindow();
-            stage.setTitle("Order History");
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Orders.FXML")));
+            Stage stage = (Stage) pendingOrdersButton.getScene().getWindow();
+            stage.setTitle("Pending Orders");
             stage.setScene(new Scene(root));
             stage.show();
 
@@ -54,5 +54,4 @@ public class OrdersController {
             throw new RuntimeException(e);
         }
     }
-
 }
