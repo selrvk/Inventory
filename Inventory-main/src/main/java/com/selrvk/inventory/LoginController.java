@@ -31,8 +31,7 @@ public class LoginController {
     - Calls setUsername() and setPassword() if the inputs provided are valid.
      */
     public void login() throws Exception{
-
-        String dbURL = "jdbc:mysql://localhost:3306/inventory";
+        String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
         try(Connection con = dbManager.verifyConnection(dbURL, usernameInput.getText(), passwordInput.getText())){
 
             setUsername();
