@@ -8,7 +8,7 @@ public class DatabaseManager {
     private static String username , password;
 
     public Connection connect() throws SQLException{
-        String dbURL = "jdbc:mysql://localhost:3306/inventory";
+        String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
         return DriverManager.getConnection(dbURL, username, password);
     }
 

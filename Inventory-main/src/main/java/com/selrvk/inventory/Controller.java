@@ -362,7 +362,7 @@ public class Controller {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
 
-            new FileChooser.ExtensionFilter("Image Files (*.png, *.jpg)", "*.png", "*.jpg")
+            new FileChooser.ExtensionFilter("Image Files (*.png, *.jpg, *.jpeg)", "*.png", "*.jpg", "*.jpeg")
         );
 
         File chosenFile = fileChooser.showOpenDialog(stage);
