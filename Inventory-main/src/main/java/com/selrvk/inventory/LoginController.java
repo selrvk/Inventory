@@ -39,6 +39,7 @@ public class LoginController {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.FXML")));
             Stage stage = (Stage) loginBtn.getScene().getWindow();
             stage.setTitle("Main Page");
+            stage.setResizable(false);
             stage.setScene(new Scene(root));
             stage.show();
 

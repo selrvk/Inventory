@@ -24,10 +24,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.sql.Date;
 import java.util.stream.Collectors;
 
 public class Controller {
 
+    @FXML
+    private Button addNewProductBtn;
     @FXML
     private Button deleteProductBtn;
     @FXML
@@ -52,14 +55,18 @@ public class Controller {
     private Button createOrderButton;
     @FXML
     private Button cancelOrderButton;
+    @FXML
+    private Button confirmOrderButton;
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
     private List<Integer> oldCheckBoxes;
+    private List<TextField> createOrderStockTextField = FXCollections.observableArrayList();
+    private List<OrdersProducts> createOrderProducts = FXCollections.observableArrayList();
     private final ObservableList<Button> updateButtons = FXCollections.observableArrayList();
     private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
-    private byte[] uploadImageBytes;
-    private TextField nameInput, stockInput, srpInput, buyingPriceInput, manufacturerInput;
+    //private byte[] uploadImageBytes;
+    private TextField nameInput, stockInput, srpInput, buyingPriceInput, manufacturerInput, customerNameInput;
     private boolean ascButtonActive = true;
     private boolean initialized;
 
@@ -112,6 +119,7 @@ public class Controller {
         orderHistoryButton.setOnAction(e -> openOrderHistory());
         createOrderButton.setOnAction(e -> createOrder());
         cancelOrderButton.setOnAction(e -> cancelOrder());
+        confirmOrderButton.setOnAction(e -> confirmOrder());
 
         reloadCheckBoxes();
         initialized = true;
@@ -132,10 +140,10 @@ public class Controller {
         // Called the method which creates an Add Product panel.
         Optional<ButtonType> result = initializeAddProductComponents();
 
-        if(uploadImageBytes != null && !nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !manufacturerInput.getText().isBlank()) {
+        if(!nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !manufacturerInput.getText().isBlank()) {
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
-                dbManager.addNewProduct(new Product(uploadImageBytes, nameInput.getText(), Integer.parseInt(stockInput.getText()), Integer.parseInt(srpInput.getText()), Integer.parseInt(buyingPriceInput.getText()),manufacturerInput.getText()));
+                dbManager.addNewProduct(new Product(nameInput.getText(), Integer.parseInt(stockInput.getText()), Integer.parseInt(srpInput.getText()), Integer.parseInt(buyingPriceInput.getText()),manufacturerInput.getText()));
                 initialize();
             } else if(result.isPresent() && result.get() == ButtonType.CANCEL) {
                 showAlert("Cancelled Request");
@@ -180,7 +188,7 @@ public class Controller {
     public List<Integer> getSelectedProductIds() {
         return productsCheckBoxes.stream()
                 .filter(CheckBox::isSelected)
-                .map(checkBox -> (Integer) checkBox.getUserData()) // Retrieve the ID from userData
+                .map(checkBox -> (Integer) checkBox.getUserData())
                 .collect(Collectors.toList());
     }
 
@@ -209,7 +217,6 @@ public class Controller {
                 product.setStock(Integer.parseInt(manufacturerInput.getText()));
             }
 
-            product.setImg(uploadImageBytes);
             dbManager.updateProduct(product);
             initialize();
 
@@ -227,19 +234,12 @@ public class Controller {
      */
     public Optional<ButtonType> initializeUpdateProductComponents(Product product){
 
-        ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(product.getImg())));
-        uploadImageBytes = product.getImg();
-        imageView.setFitWidth(100);
-        imageView.setFitHeight(100);
-
         Alert addNewProductAlert = new Alert(Alert.AlertType.CONFIRMATION);
         addNewProductAlert.setHeaderText("Update Product");
         addNewProductAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
-        Button uploadImageBtn = new Button("Upload Image");
-        uploadImageBtn.setPrefSize(100,20);
-
-        uploadImageBtn.setOnAction(e -> imageView.setImage(uploadImage(e)));
+        //Button uploadImageBtn = new Button("Upload Image");
+        //uploadImageBtn.setPrefSize(100,20);
 
         this.nameInput = new TextField();
         nameInput.setPromptText(product.getName());
@@ -251,8 +251,7 @@ public class Controller {
         manufacturerInput.setPromptText(product.getManufacturer());
 
         GridPane gridPane = new GridPane();
-        gridPane.add(imageView, 0, 1);
-        gridPane.add(uploadImageBtn, 0, 2);
+        //gridPane.add(uploadImageBtn, 0, 2);
         gridPane.add(nameInput, 1 , 1);
         gridPane.add(stockInput, 1 , 2);
         gridPane.add(manufacturerInput, 2, 1);
@@ -370,7 +369,7 @@ public class Controller {
 
         try {
             FileInputStream fis = new FileInputStream(chosenFile);
-            this.uploadImageBytes = fis.readAllBytes();
+            //this.uploadImageBytes = fis.readAllBytes();
             fis.close();
 
         } catch (IOException e) {
@@ -565,6 +564,10 @@ public class Controller {
 
     public void createOrder(){
 
+        confirmOrderButton.setVisible(true);
+        confirmOrderButton.setDisable(false);
+        addNewProductBtn.setDisable(true);
+        addNewProductBtn.setVisible(false);
         createOrderButton.setVisible(false);
         createOrderButton.setDisable(true);
         cancelOrderButton.setVisible(true);
@@ -574,7 +577,7 @@ public class Controller {
 
         productsScrollPane.setContent(null);
 
-        /* VBox productsVBox = new VBox(20);
+        VBox productsVBox = new VBox(20);
 
         String query = "SELECT * FROM products WHERE name LIKE ? AND stock BETWEEN ? AND ? ORDER BY " + sortByComboBox.getValue().toLowerCase() + " " + getActiveBtn();
         List<Product> products = dbManager.getProducts(query, getSearchBar(), getMinStockFilter(), getMaxStockFilter());
@@ -583,19 +586,72 @@ public class Controller {
 
             CreateOrderPanel createOrderPanel = new CreateOrderPanel(product);
             productsVBox.getChildren().add(createOrderPanel);
-            this.productsCheckBoxes.add(createOrderPanel.getCheckBox());
-            this.updateButtons.add(createOrderPanel.getUpdateButton());
-            createOrderPanel.getUpdateButton().setOnAction(e -> updateProduct((Integer) createOrderPanel.getUpdateButton().getUserData()));
+            this.createOrderStockTextField.add(createOrderPanel.getProductTextBox());
         }
-        productsScrollPane.setContent(productsVBox);*/
+        productsScrollPane.setContent(productsVBox);
     }
 
     public void cancelOrder(){
 
+        confirmOrderButton.setVisible(false);
+        confirmOrderButton.setDisable(true);
+        addNewProductBtn.setDisable(false);
+        addNewProductBtn.setVisible(true);
         cancelOrderButton.setVisible(false);
         cancelOrderButton.setDisable(true);
         createOrderButton.setVisible(true);
         createOrderButton.setDisable(false);
+        initialize();
 
     }
+
+    public void confirmOrder(){
+
+        Optional<ButtonType> result = initializeCreateOrderCustomerName();
+
+        if(result.isPresent() && result.get().equals(ButtonType.OK)){
+
+            if(!(customerNameInput.getText().isBlank())) {
+
+                List<TextField> inputs = getTextFieldsWithInput();
+                Date date = new Date(System.currentTimeMillis());
+
+                for(TextField textField : inputs){
+
+                    Product product = (Product) textField.getUserData();
+                    createOrderProducts.add(new OrdersProducts(product.getName(), Integer.parseInt(textField.getText()),product.getSrp()));
+                }
+
+                dbManager.createOrder(new Orders(date, customerNameInput.getText(), createOrderProducts));
+                createOrderProducts.clear();
+            }
+
+        } else {
+            showAlert("Cancelled Request");
+        }
+    }
+
+    public List<TextField> getTextFieldsWithInput() {
+        return createOrderStockTextField.stream()
+                .filter(textField -> !textField.getText().isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    public Optional<ButtonType> initializeCreateOrderCustomerName(){
+
+        Alert addNewProductAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        addNewProductAlert.setHeaderText("Enter customer name");
+        addNewProductAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+
+        this.customerNameInput = new TextField();
+        customerNameInput.setPromptText("Enter customer name");
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(customerNameInput, 1 , 1);
+
+        addNewProductAlert.getDialogPane().setContent(gridPane);
+        return addNewProductAlert.showAndWait();
+    }
+
+
 }

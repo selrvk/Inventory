@@ -34,10 +34,6 @@ public class ProductsPanel extends HBox {
         this.updateButton = new Button("Update");
         this.updateButton.setUserData((product.getId()));
 
-        ImageView imageView = new ImageView(new Image(new ByteArrayInputStream(product.getImg())));
-        imageView.setFitHeight(100);
-        imageView.setFitWidth(100);
-
         Label idLabel = new Label("ID: " + product.getId());
         idLabel.setFont(new Font("Montserrat", 20));
         Label nameLabel = new Label(product.getName());
@@ -49,7 +45,7 @@ public class ProductsPanel extends HBox {
         Label buyingPriceLabel = new Label("Buying Price: " + product.getBuyingPrice());
         buyingPriceLabel.setFont(new Font("Montserrat", 20));
 
-        this.getChildren().addAll(productCheckBox, imageView, idLabel, nameLabel, stockLabel, srpLabel, buyingPriceLabel, updateButton);
+        this.getChildren().addAll(productCheckBox, idLabel, nameLabel, stockLabel, srpLabel, buyingPriceLabel, updateButton);
         this.setSpacing(20);
     }
 

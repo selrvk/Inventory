@@ -23,21 +23,21 @@
          </image>
       </ImageView>
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="873.0" />
-      <Button fx:id="inventoryButton" layoutX="376.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Inventory">
+      <Button fx:id="inventoryButton" layoutX="376.0" layoutY="68.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Inventory">
          <font>
             <Font name="Franklin Gothic Demi" size="18.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="606.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Pending Orders">
+      <Button disable="true" layoutX="606.0" layoutY="68.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Pending Orders">
          <font>
             <Font name="Franklin Gothic Demi" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="orderHistoryButton" layoutX="836.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Order History">
+      <Button fx:id="orderHistoryButton" layoutX="836.0" layoutY="68.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Order History">
          <font>
             <Font name="Franklin Gothic Demi" size="18.0" />
          </font>
       </Button>
-      <ScrollPane fx:id="ordersScrollPane" layoutX="376.0" layoutY="225.0" prefHeight="477.0" prefWidth="873.0" />
+      <ScrollPane fx:id="pendingOrdersPane" layoutX="376.0" layoutY="225.0" prefHeight="477.0" prefWidth="873.0" />
    </children>
 </AnchorPane>
