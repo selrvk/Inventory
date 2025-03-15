@@ -5,9 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,6 +25,8 @@ public class OrdersController {
     private Button orderHistoryButton;
     @FXML
     private ScrollPane pendingOrdersPane;
+    @FXML
+    private ScrollPane ordersProductsPane;
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
@@ -49,6 +53,7 @@ public class OrdersController {
             PendingOrdersPanel panel = new PendingOrdersPanel(orders);
             this.confirmButtons.add(panel.getConfirmOrderButton());
             this.expandButtons.add(panel.getExpandOrderDetailsButton());
+            panel.getConfirmOrderButton().setOnAction(e -> confirmOrder(orders));
             panel.getExpandOrderDetailsButton().setOnAction(e -> expandDetails(orders));
             pendingOrdersVBox.getChildren().add(panel);
         }
@@ -57,7 +62,22 @@ public class OrdersController {
 
     public void expandDetails(Orders order){
 
-        System.out.println("Viewing product with order id: " + order.getOrder_id());
+        VBox ordersProductsVBox = new VBox(20);
+        ordersProductsVBox.setPadding(new Insets(20,20,20,20));
+
+        List<OrdersProducts> ordersProducts = dbManager.getOrderProducts(order);
+
+        for(OrdersProducts orderProduct : ordersProducts){
+
+            OrderProductsPanel orderProductsPanel = new OrderProductsPanel(orderProduct);
+            ordersProductsVBox.getChildren().add(orderProductsPanel);
+        }
+        ordersProductsPane.setContent(ordersProductsVBox);
+    }
+
+    public void confirmOrder(Orders order){
+
+        dbManager.confirmOrder(order.getOrder_id());
     }
 
     public void openInventory(){

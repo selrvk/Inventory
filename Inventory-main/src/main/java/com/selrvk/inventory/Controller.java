@@ -214,7 +214,7 @@ public class Controller {
                 product.setStock(Integer.parseInt(stockInput.getText()));
             }
             if(!(manufacturerInput.getText().isBlank())){
-                product.setStock(Integer.parseInt(manufacturerInput.getText()));
+                product.setManufacturer(manufacturerInput.getText());
             }
 
             dbManager.updateProduct(product);
@@ -316,10 +316,10 @@ public class Controller {
         addNewProductAlert.setHeaderText("Add New Product");
         addNewProductAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
-        Button uploadImageBtn = new Button("Upload Image");
-        uploadImageBtn.setPrefSize(100,20);
+        //Button uploadImageBtn = new Button("Upload Image");
+        //uploadImageBtn.setPrefSize(100,20);
 
-        uploadImageBtn.setOnAction(e -> imageView.setImage(uploadImage(e)));
+        //uploadImageBtn.setOnAction(e -> imageView.setImage(uploadImage(e)));
 
         this.nameInput = new TextField();
         nameInput.setPromptText("Name");
@@ -337,8 +337,8 @@ public class Controller {
         manufacturerInput.setPromptText("Manufacturer");
 
         GridPane gridPane = new GridPane();
-        gridPane.add(imageView, 0, 1);
-        gridPane.add(uploadImageBtn, 0, 2);
+        //gridPane.add(imageView, 0, 1);
+        //gridPane.add(uploadImageBtn, 0, 2);
         gridPane.add(nameInput, 1 , 1);
         gridPane.add(stockInput, 1 , 2);
         gridPane.add(srpInput, 2, 1);
@@ -608,6 +608,7 @@ public class Controller {
     public void confirmOrder(){
 
         Optional<ButtonType> result = initializeCreateOrderCustomerName();
+        boolean valid = true;
 
         if(result.isPresent() && result.get().equals(ButtonType.OK)){
 
@@ -619,10 +620,22 @@ public class Controller {
                 for(TextField textField : inputs){
 
                     Product product = (Product) textField.getUserData();
-                    createOrderProducts.add(new OrdersProducts(product.getName(), Integer.parseInt(textField.getText()),product.getSrp()));
-                }
 
-                dbManager.createOrder(new Orders(date, customerNameInput.getText(), createOrderProducts));
+                    if(Integer.parseInt(textField.getText()) <= product.getStock()){
+
+                        createOrderProducts.add(new OrdersProducts(product.getName(), product.getId() ,Integer.parseInt(textField.getText()),product.getSrp()));
+
+                    } else {
+
+                        valid = false;
+                        System.out.println("ALERT");
+                        showAlert("Order quantity greater than available stock!");
+                    }
+                }
+                if(valid){
+
+                    dbManager.createOrder(new Orders(date, customerNameInput.getText(), createOrderProducts));
+                }
                 createOrderProducts.clear();
             }
 
