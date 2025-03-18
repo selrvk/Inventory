@@ -3,9 +3,8 @@ package com.selrvk.inventory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class ProductsPanel extends HBox {
@@ -20,13 +19,15 @@ public class ProductsPanel extends HBox {
         this.product = product;
         this.setPrefWidth(850);
         this.setPrefHeight(70);
+        this.setSpacing(20);
+        this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null , new BorderWidths(1))));
         printComponents();
     }
 
     public void printComponents(){
 
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setPadding(new Insets(5,0,0,30));
+        this.setPadding(new Insets(0,0,0,45));
 
         this.productCheckBox = new CheckBox();
         this.productCheckBox.setUserData(product.getId());
@@ -43,7 +44,7 @@ public class ProductsPanel extends HBox {
         Label nameLabel = new Label(product.getName());
         nameLabel.setFont(new Font("Montserrat", 18));
         nameLabel.setWrapText(true);
-        nameLabel.setMaxWidth(250);
+        nameLabel.setMaxWidth(230);
 
         // Stock label
         Label stockLabel = new Label("" + product.getStock());
@@ -66,9 +67,7 @@ public class ProductsPanel extends HBox {
         HBox.setHgrow(srpLabel, Priority.ALWAYS);
         HBox.setHgrow(buyingPriceLabel, Priority.ALWAYS);
 
-
         this.getChildren().addAll(productCheckBox, idLabel, nameLabel, stockLabel, srpLabel, buyingPriceLabel, updateButton);
-        this.setSpacing(20);
     }
 
     public CheckBox getCheckBox(){ return this.productCheckBox; }

@@ -283,7 +283,7 @@ public class Controller {
     - Calls ProductsPanel getUpdateButton().
     -- Called by initialize().
      */
-    public void printProducts(){
+        public void printProducts(){
 
         VBox productsVBox = new VBox(20);
 
@@ -298,6 +298,7 @@ public class Controller {
             this.updateButtons.add(panel.getUpdateButton());
             panel.getUpdateButton().setOnAction(e -> updateProduct((Integer) panel.getUpdateButton().getUserData()));
         }
+        productsVBox.setSpacing(0);
         productsScrollPane.setContent(productsVBox);
     }
 
@@ -600,6 +601,8 @@ public class Controller {
             productsVBox.getChildren().add(createOrderPanel);
             this.createOrderStockTextField.add(createOrderPanel.getProductTextBox());
         }
+
+        productsVBox.setSpacing(0);
         productsScrollPane.setContent(productsVBox);
     }
 
