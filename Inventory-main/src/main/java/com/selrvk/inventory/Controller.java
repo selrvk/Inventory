@@ -19,7 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.beans.binding.*;
 
-import java.io.ByteArrayInputStream;
+//import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -61,8 +61,8 @@ public class Controller {
     private final DatabaseManager dbManager = new DatabaseManager();
 
     private List<Integer> oldCheckBoxes;
-    private List<TextField> createOrderStockTextField = FXCollections.observableArrayList();
-    private List<OrdersProducts> createOrderProducts = FXCollections.observableArrayList();
+    private final List<TextField> createOrderStockTextField = FXCollections.observableArrayList();
+    private final List<OrdersProducts> createOrderProducts = FXCollections.observableArrayList();
     private final ObservableList<Button> updateButtons = FXCollections.observableArrayList();
     private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
     //private byte[] uploadImageBytes;
@@ -237,6 +237,7 @@ public class Controller {
         Alert addNewProductAlert = new Alert(Alert.AlertType.CONFIRMATION);
         addNewProductAlert.setHeaderText("Update Product");
         addNewProductAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+
 
         //Button uploadImageBtn = new Button("Upload Image");
         //uploadImageBtn.setPrefSize(100,20);
@@ -438,18 +439,29 @@ public class Controller {
      */
     public void showAlert(String alertType){
 
-        if(alertType.equals("Incomplete Field")){
+        Alert alert;
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Incomplete Fields");
-            alert.showAndWait();
-        } else if (alertType.equals("Cancelled Request")) {
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Cancelled Request");
-            alert.showAndWait();
+        switch (alertType){
+            case "Incomplete Field":
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Incomplete Fields");
+                alert.showAndWait();
+                break;
+            case "Cancelled Request":
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Cancelled Request");
+                alert.showAndWait();
+                break;
+            case "Not enough stock":
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Order quantity higher than available stock");
+                alert.showAndWait();
+                break;
+            default:
+                System.out.println("Unknown error");
         }
     }
 
@@ -628,8 +640,8 @@ public class Controller {
                     } else {
 
                         valid = false;
-                        System.out.println("ALERT");
-                        showAlert("Order quantity greater than available stock!");
+                        showAlert("Not enough stock");
+                        break;
                     }
                 }
                 if(valid){

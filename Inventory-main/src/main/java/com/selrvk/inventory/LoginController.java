@@ -2,6 +2,7 @@ package com.selrvk.inventory;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,8 +37,13 @@ public class LoginController {
 
             setUsername();
             setPassword();
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.FXML")));
             Stage stage = (Stage) loginBtn.getScene().getWindow();
+            double x = (screenBounds.getWidth() - stage.getWidth()) / 3.5;
+            double y = (screenBounds.getHeight() - stage.getHeight()) / 3.5;
+            stage.setX(x);
+            stage.setY(y);
             stage.setTitle("Main Page");
             stage.setResizable(false);
             stage.setScene(new Scene(root));

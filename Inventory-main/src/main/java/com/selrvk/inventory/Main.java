@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Main extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.FXML")));
         stage.setTitle("Login Page");

@@ -8,6 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -26,7 +27,7 @@
          </image>
       </ImageView>
       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="873.0" />
-      <ScrollPane fx:id="productsScrollPane" layoutX="376.0" layoutY="225.0" prefHeight="477.0" prefWidth="873.0" />
+      <ScrollPane fx:id="productsScrollPane" layoutX="376.0" layoutY="277.0" prefHeight="425.0" prefWidth="873.0" />
       <TextField fx:id="searchBar" layoutX="395.0" layoutY="156.0" prefHeight="47.0" prefWidth="418.0" promptText="Search..." />
       <Button fx:id="addNewProductBtn" layoutX="819.0" layoutY="156.0" mnemonicParsing="false" onAction="#addNewProduct" prefHeight="47.0" prefWidth="132.0" text="+ NEW">
          <font>
@@ -103,5 +104,35 @@
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
+      <Label layoutX="439.0" layoutY="220.0" prefHeight="41.0" prefWidth="27.0" text="ID" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="594.0" layoutY="222.0" prefHeight="41.0" prefWidth="68.0" text="Name" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="779.0" layoutY="222.0" prefHeight="41.0" prefWidth="68.0" text="Stock" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="867.0" layoutY="222.0" prefHeight="41.0" prefWidth="98.0" text="Selling Price" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="974.0" layoutY="226.0" prefHeight="34.0" prefWidth="98.0" text="Buying Price" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="18.0" />
+         </font>
+      </Label>
+      <Line endX="2.0" endY="441.0" layoutX="491.0" layoutY="261.0" startX="2.0" startY="-18.0" stroke="#222831" />
+      <Line endX="2.0" endY="424.0" layoutX="759.0" layoutY="278.0" startX="2.0" startY="-17.0" stroke="#222831" />
+      <Line endX="2.0" endY="424.0" layoutX="859.0" layoutY="278.0" startX="2.0" startY="-17.0" stroke="#222831" />
+      <Line endX="2.0" endY="424.0" layoutX="969.0" layoutY="278.0" startX="2.0" startY="-17.0" stroke="#222831" />
+      <Line endX="2.0" endY="424.0" layoutX="1074.0" layoutY="278.0" startX="2.0" startY="-17.0" stroke="#222831" />
    </children>
 </AnchorPane>

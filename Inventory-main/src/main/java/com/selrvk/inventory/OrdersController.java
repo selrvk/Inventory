@@ -2,14 +2,12 @@ package com.selrvk.inventory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -30,8 +28,8 @@ public class OrdersController {
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
-    private ObservableList<Button> confirmButtons = FXCollections.observableArrayList();
-    private ObservableList<Button> expandButtons = FXCollections.observableArrayList();
+    private final ObservableList<Button> confirmButtons = FXCollections.observableArrayList();
+    private final ObservableList<Button> expandButtons = FXCollections.observableArrayList();
 
     public void initialize(){
 
@@ -78,6 +76,7 @@ public class OrdersController {
     public void confirmOrder(Orders order){
 
         dbManager.confirmOrder(order.getOrder_id());
+        initialize();
     }
 
     public void openInventory(){

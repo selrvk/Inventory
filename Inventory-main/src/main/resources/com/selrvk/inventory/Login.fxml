@@ -6,13 +6,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="569.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.LoginController">
+<AnchorPane prefHeight="493.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.LoginController">
    <children>
-      <Rectangle fill="#222831" height="569.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="783.0" />
-      <Rectangle fill="#363e4a" height="245.0" layoutY="165.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="783.0" />
+      <Rectangle fill="#222831" height="494.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="783.0" />
+      <Rectangle fill="#363e4a" height="260.0" layoutY="165.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="783.0" />
       <ImageView fitHeight="175.0" fitWidth="201.0" layoutX="181.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../selrvklogo.png" />
@@ -23,12 +24,19 @@
             <Image url="@../../../ims.png" />
          </image>
       </ImageView>
-      <Button fx:id="loginBtn" layoutX="323.0" layoutY="334.0" mnemonicParsing="false" onAction="#login" prefHeight="53.0" prefWidth="137.0" text="Login">
+      <TextField fx:id="usernameInput" layoutX="230.0" layoutY="208.0" prefHeight="46.0" prefWidth="324.0" promptText="Username">
          <font>
-            <Font name="Franklin Gothic Demi" size="24.0" />
+            <Font size="19.0" />
+         </font></TextField>
+      <PasswordField fx:id="passwordInput" layoutX="230.0" layoutY="285.0" prefHeight="46.0" prefWidth="324.0" promptText="Password">
+         <font>
+            <Font size="19.0" />
+         </font></PasswordField>
+      <Button fx:id="loginBtn" layoutX="324.0" layoutY="364.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="137.0" text="Login">
+         <font>
+            <Font size="17.0" />
          </font>
       </Button>
-      <PasswordField fx:id="passwordInput" layoutX="268.0" layoutY="275.0" prefHeight="25.0" prefWidth="248.0" promptText="pass xd" />
-      <TextField fx:id="usernameInput" layoutX="268.0" layoutY="215.0" prefHeight="25.0" prefWidth="248.0" promptText="username xd" />
+      <Line endX="192.0" layoutX="359.0" layoutY="270.0" startX="-127.0" stroke="#322929" />
    </children>
 </AnchorPane>

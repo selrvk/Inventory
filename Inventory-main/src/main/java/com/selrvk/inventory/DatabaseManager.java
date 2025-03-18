@@ -126,9 +126,6 @@ public class DatabaseManager {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                System.out.println("Sout 1");
-                System.out.println("Sout 2: " + rs.getInt("id"));
-
                 return new Product(
                         rs.getInt("id"),
                         rs.getString("name"),
@@ -249,8 +246,6 @@ public class DatabaseManager {
                     prstmUpdateProductStock.setInt(1, pendingOrderProductsSet.getInt("order_quantity"));
                     prstmUpdateProductStock.setInt(2, pendingOrderProductsSet.getInt("product_id"));
                     prstmUpdateProductStock.executeUpdate();
-
-                    System.out.println("DEDUCTING " + pendingOrderProductsSet.getInt("order_quantity") + " FROM PRODUCT ID " + pendingOrderProductsSet.getInt("product_id"));
                 }
             }
 

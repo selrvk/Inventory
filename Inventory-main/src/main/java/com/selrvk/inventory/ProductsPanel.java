@@ -3,12 +3,10 @@ package com.selrvk.inventory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
-
-import java.io.ByteArrayInputStream;
 
 public class ProductsPanel extends HBox {
 
@@ -20,6 +18,8 @@ public class ProductsPanel extends HBox {
 
         this.getChildren().clear();
         this.product = product;
+        this.setPrefWidth(850);
+        this.setPrefHeight(70);
         printComponents();
     }
 
@@ -34,16 +34,38 @@ public class ProductsPanel extends HBox {
         this.updateButton = new Button("Update");
         this.updateButton.setUserData((product.getId()));
 
-        Label idLabel = new Label("ID: " + product.getId());
+        // ID label
+        Label idLabel = new Label("" + product.getId());
         idLabel.setFont(new Font("Montserrat", 20));
+        idLabel.setMaxWidth(50);
+
+        // Name label
         Label nameLabel = new Label(product.getName());
-        nameLabel.setFont(new Font("Montserrat", 20));
-        Label stockLabel = new Label("Stock: " + product.getStock());
+        nameLabel.setFont(new Font("Montserrat", 18));
+        nameLabel.setWrapText(true);
+        nameLabel.setMaxWidth(250);
+
+        // Stock label
+        Label stockLabel = new Label("" + product.getStock());
         stockLabel.setFont(new Font("Montserrat", 20));
-        Label srpLabel = new Label("SRP: " + product.getSrp());
+        stockLabel.setMaxWidth(80);
+
+        // SRP label
+        Label srpLabel = new Label("" + product.getSrp());
         srpLabel.setFont(new Font("Montserrat", 20));
-        Label buyingPriceLabel = new Label("Buying Price: " + product.getBuyingPrice());
+        srpLabel.setMaxWidth(80);
+
+        // Buying price label
+        Label buyingPriceLabel = new Label("" + product.getBuyingPrice());
         buyingPriceLabel.setFont(new Font("Montserrat", 20));
+        buyingPriceLabel.setMaxWidth(120);
+
+        HBox.setHgrow(idLabel, Priority.ALWAYS);
+        HBox.setHgrow(nameLabel, Priority.ALWAYS);
+        HBox.setHgrow(stockLabel, Priority.ALWAYS);
+        HBox.setHgrow(srpLabel, Priority.ALWAYS);
+        HBox.setHgrow(buyingPriceLabel, Priority.ALWAYS);
+
 
         this.getChildren().addAll(productCheckBox, idLabel, nameLabel, stockLabel, srpLabel, buyingPriceLabel, updateButton);
         this.setSpacing(20);
