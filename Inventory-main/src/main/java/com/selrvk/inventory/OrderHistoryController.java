@@ -28,7 +28,7 @@ public class OrderHistoryController {
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
-    private ObservableList<Button> expandButtons = FXCollections.observableArrayList();
+    private final ObservableList<Button> expandButtons = FXCollections.observableArrayList();
 
     public void initialize(){
 
@@ -57,7 +57,7 @@ public class OrderHistoryController {
     public void expandDetails(Orders order){
 
         VBox ordersProductsVBox = new VBox(20);
-        ordersProductsVBox.setPadding(new Insets(20,20,20,20));
+        ordersProductsVBox.setPadding(new Insets(5,5,5,20));
 
         List<OrdersProducts> ordersProducts = dbManager.getOrderHistoryProducts(order);
 

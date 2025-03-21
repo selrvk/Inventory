@@ -282,6 +282,35 @@ public class DatabaseManager {
         return orders;
     }
 
+    public void cancelOrder(int order_id){
+
+        String queryGetPendingOrderProducts = "SELECT * FROM pending_orders_products WHERE order_id = ?";
+        String queryRemovePendingOrder = "DELETE FROM pending_orders WHERE order_id = ?";
+        String queryRemovePendingOrderProducts = "DELETE FROM pending_orders_products WHERE order_id = ?";
+
+        try(Connection connection = connect();
+            PreparedStatement prstmGetPendingOrderProducts = connection.prepareStatement(queryGetPendingOrderProducts, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement prstmQueryRemovePendingOrder = connection.prepareStatement(queryRemovePendingOrder);
+            PreparedStatement prstmQueryRemovePendingOrderProducts = connection.prepareStatement(queryRemovePendingOrderProducts);
+        ){
+
+            prstmQueryRemovePendingOrder.setInt(1, order_id);
+            prstmQueryRemovePendingOrder.executeUpdate();
+
+            prstmGetPendingOrderProducts.setInt(1, order_id);
+            ResultSet pendingOrderProductsSet = prstmGetPendingOrderProducts.executeQuery();
+
+            while(pendingOrderProductsSet.next()){
+                prstmQueryRemovePendingOrderProducts.setInt(1, order_id);
+                prstmQueryRemovePendingOrderProducts.executeUpdate();
+            }
+
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public List<OrdersProducts> getOrderProducts(Orders order){
 
         String query = "SELECT * FROM pending_orders_products WHERE order_id = ?";

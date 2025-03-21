@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 public class PendingOrdersPanel extends HBox {
 
     private final Orders order;
-    private Button confirmOrderButton, expandOrderDetailsButton;
+    private Button confirmOrderButton, expandOrderDetailsButton, cancelOrderButton;
 
     PendingOrdersPanel(Orders order){
 
@@ -36,25 +36,30 @@ public class PendingOrdersPanel extends HBox {
         this.expandOrderDetailsButton = new Button("Expand Details");
         this.expandOrderDetailsButton.setUserData((order.getOrder_id()));
 
+        this.cancelOrderButton = new Button("Cancel Order");
+        this.cancelOrderButton.setUserData((order.getOrder_id()));
+
         Label idLabel = new Label("" + order.getOrder_id());
         idLabel.setFont(new Font("Montserrat", 20));
         idLabel.setMaxWidth(100);
 
         Label dateLabel = new Label("" + order.getDate());
         dateLabel.setFont(new Font("Montserrat", 20));
-        dateLabel.setMaxWidth(150);
+        dateLabel.setMaxWidth(170);
 
         Label customerLabel = new Label(order.getCustomer_name());
         customerLabel.setFont(new Font("Montserrat", 20));
-        customerLabel.setMaxWidth(300);
+        customerLabel.setWrapText(true);
+        customerLabel.setMaxWidth(200);
 
         HBox.setHgrow(idLabel, Priority.ALWAYS);
         HBox.setHgrow(dateLabel, Priority.ALWAYS);
         HBox.setHgrow(customerLabel, Priority.ALWAYS);
 
-        this.getChildren().addAll(confirmOrderButton, expandOrderDetailsButton,dateLabel, idLabel, customerLabel);
+        this.getChildren().addAll(dateLabel, idLabel, customerLabel, cancelOrderButton, expandOrderDetailsButton, confirmOrderButton);
     }
 
     public Button getConfirmOrderButton(){return this.confirmOrderButton;}
     public Button getExpandOrderDetailsButton(){return this.expandOrderDetailsButton;}
+    public Button getCancelOrderButton(){return this.cancelOrderButton;}
 }

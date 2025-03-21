@@ -30,6 +30,7 @@ public class OrdersController {
 
     private final ObservableList<Button> confirmButtons = FXCollections.observableArrayList();
     private final ObservableList<Button> expandButtons = FXCollections.observableArrayList();
+    private final ObservableList<Button> cancelButtons = FXCollections.observableArrayList();
 
     public void initialize(){
 
@@ -51,8 +52,10 @@ public class OrdersController {
             PendingOrdersPanel panel = new PendingOrdersPanel(orders);
             this.confirmButtons.add(panel.getConfirmOrderButton());
             this.expandButtons.add(panel.getExpandOrderDetailsButton());
+            this.cancelButtons.add(panel.getCancelOrderButton());
             panel.getConfirmOrderButton().setOnAction(e -> confirmOrder(orders));
             panel.getExpandOrderDetailsButton().setOnAction(e -> expandDetails(orders));
+            panel.getCancelOrderButton().setOnAction(e -> cancelOrder(orders));
             pendingOrdersVBox.getChildren().add(panel);
         }
         pendingOrdersPane.setContent(pendingOrdersVBox);
@@ -61,7 +64,7 @@ public class OrdersController {
     public void expandDetails(Orders order){
 
         VBox ordersProductsVBox = new VBox(20);
-        ordersProductsVBox.setPadding(new Insets(20,20,20,20));
+        ordersProductsVBox.setPadding(new Insets(5,5,5,20));
 
         List<OrdersProducts> ordersProducts = dbManager.getOrderProducts(order);
 
@@ -76,6 +79,11 @@ public class OrdersController {
     public void confirmOrder(Orders order){
 
         dbManager.confirmOrder(order.getOrder_id());
+        initialize();
+    }
+
+    public void cancelOrder(Orders order){
+        dbManager.cancelOrder(order.getOrder_id());
         initialize();
     }
 
