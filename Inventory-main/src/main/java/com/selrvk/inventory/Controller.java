@@ -549,7 +549,7 @@ public class Controller {
 
         try {
 
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Orders.FXML")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Orders.fxml")));
             Stage stage = (Stage) pendingOrdersButton.getScene().getWindow();
             stage.setTitle("Pending Orders");
             stage.setScene(new Scene(root));
@@ -564,7 +564,7 @@ public class Controller {
 
         try {
 
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrderHistory.FXML")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrderHistory.fxml")));
             Stage stage = (Stage) orderHistoryButton.getScene().getWindow();
             stage.setTitle("Order History");
             stage.setScene(new Scene(root));

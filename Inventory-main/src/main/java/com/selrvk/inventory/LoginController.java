@@ -38,7 +38,7 @@ public class LoginController {
             setUsername();
             setPassword();
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.FXML")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
             Stage stage = (Stage) loginBtn.getScene().getWindow();
             double x = (screenBounds.getWidth() - stage.getWidth()) / 3.5;
             double y = (screenBounds.getHeight() - stage.getHeight()) / 3.5;

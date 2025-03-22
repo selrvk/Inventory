@@ -91,7 +91,7 @@ public class OrdersController {
 
         try {
 
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.FXML")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
             Stage stage = (Stage) inventoryButton.getScene().getWindow();
             stage.setTitle("Main Page");
             stage.setScene(new Scene(root));
@@ -106,7 +106,7 @@ public class OrdersController {
 
         try {
 
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrderHistory.FXML")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrderHistory.fxml")));
             Stage stage = (Stage) orderHistoryButton.getScene().getWindow();
             stage.setTitle("Order History");
             stage.setScene(new Scene(root));
