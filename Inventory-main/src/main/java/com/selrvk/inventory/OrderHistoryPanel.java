@@ -34,7 +34,7 @@ public class OrderHistoryPanel extends HBox {
 
         Label idLabel = new Label("" + order.getOrder_id());
         idLabel.setFont(new Font("Montserrat", 20));
-        idLabel.setMaxWidth(140);
+        idLabel.setMaxWidth(100);
 
         Label dateLabel = new Label("" + order.getDate());
         dateLabel.setFont(new Font("Montserrat", 20));
@@ -43,7 +43,7 @@ public class OrderHistoryPanel extends HBox {
         Label customerLabel = new Label(order.getCustomer_name());
         customerLabel.setFont(new Font("Montserrat", 20));
         customerLabel.setWrapText(true);
-        customerLabel.setMaxWidth(280);
+        customerLabel.setMaxWidth(200);
 
         HBox.setHgrow(idLabel, Priority.ALWAYS);
         HBox.setHgrow(dateLabel, Priority.ALWAYS);

@@ -647,10 +647,13 @@ public class Controller {
                         break;
                     }
                 }
+
                 if(valid){
 
                     dbManager.createOrder(new Orders(date, customerNameInput.getText(), createOrderProducts));
+                    cancelOrder();
                 }
+
                 createOrderProducts.clear();
             }
 
