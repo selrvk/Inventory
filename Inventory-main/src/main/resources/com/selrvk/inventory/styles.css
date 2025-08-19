@@ -1,0 +1,37 @@
+/* make all ScrollPanes transparent */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* make the inner area transparent */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* hide scrollbars if you don’t want them visible */
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.order-products-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-border-color: #444;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+}
+
+.order-products-panel .label {
+    -fx-text-fill: white;
+}
+
+.order-products-panel .product-info {
+    -fx-text-fill: #696E82;
+}
+
+
+
+

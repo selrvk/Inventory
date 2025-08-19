@@ -21,8 +21,12 @@ public class OrdersController {
     private Button inventoryButton;
     @FXML
     private Button orderHistoryButton;
+
+    /* The right scrollPane */
     @FXML
     private ScrollPane pendingOrdersPane;
+
+    /* The left scrollPane */
     @FXML
     private ScrollPane ordersProductsPane;
 
@@ -50,9 +54,11 @@ public class OrdersController {
         for(Orders orders : pendingOrders){
 
             PendingOrdersPanel panel = new PendingOrdersPanel(orders);
+
             this.confirmButtons.add(panel.getConfirmOrderButton());
             this.expandButtons.add(panel.getExpandOrderDetailsButton());
             this.cancelButtons.add(panel.getCancelOrderButton());
+
             panel.getConfirmOrderButton().setOnAction(e -> confirmOrder(orders));
             panel.getExpandOrderDetailsButton().setOnAction(e -> expandDetails(orders));
             panel.getCancelOrderButton().setOnAction(e -> cancelOrder(orders));
@@ -73,6 +79,7 @@ public class OrdersController {
             OrderProductsPanel orderProductsPanel = new OrderProductsPanel(orderProduct);
             ordersProductsVBox.getChildren().add(orderProductsPanel);
         }
+
         ordersProductsPane.setContent(ordersProductsVBox);
     }
 

@@ -25,6 +25,10 @@ public class LoginController {
     private final Controller controller = new Controller();
     private final DatabaseManager dbManager = new DatabaseManager();
 
+    // Was too lazy to browse FXML file
+    public void initialize(){
+        loginBtn.setDefaultButton(true);
+    }
     /*
     void login()
     Passes the string dbURL into class DatabaseManager verifyConnection() to check

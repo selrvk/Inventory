@@ -21,8 +21,11 @@ public class OrderHistoryController {
     private Button pendingOrdersButton;
     @FXML
     private Button inventoryButton;
+    /* The right scrollPane */
     @FXML
     private ScrollPane orderHistoryPane;
+
+    /* The left scrollPane */
     @FXML
     private ScrollPane orderHistoryProductsPane;
 
