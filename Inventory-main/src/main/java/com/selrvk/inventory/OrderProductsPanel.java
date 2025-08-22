@@ -13,10 +13,10 @@ public class OrderProductsPanel extends VBox {
 
     public OrderProductsPanel(OrdersProducts ordersProducts){
 
+        this.getStyleClass().add("order-products-panel");
         this.ordersProducts = ordersProducts;
         this.setPrefWidth(300);
         this.setSpacing(0);
-        this.getStyleClass().add("order-products-panel");
         printComponents();
     }
 

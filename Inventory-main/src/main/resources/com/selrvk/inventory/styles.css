@@ -1,11 +1,11 @@
 /* make all ScrollPanes transparent */
-.scroll-pane {
+.main-scroll-pane {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
 /* make the inner area transparent */
-.scroll-pane .viewport {
+.main-scroll-pane .viewport {
     -fx-background-color: transparent;
 }
 
@@ -21,7 +21,10 @@
     -fx-border-width: 1;
     -fx-border-radius: 12;
     -fx-background-radius: 12;
-    -fx-padding: 10;
+}
+
+.order-products-panel .viewport {
+    -fx-background-color: transparent;
 }
 
 .order-products-panel .label {
@@ -29,6 +32,49 @@
 }
 
 .order-products-panel .product-info {
+    -fx-text-fill: #696E82;
+}
+
+.not-main-panels-ig{
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+        -fx-border-color: GRAY;
+        -fx-border-width: 2;
+        -fx-border-radius:12;
+        -fx-background-radius: 12;
+        -fx-spacing: 20;
+}
+
+.not-main-panels-ig .label{
+    -fx-text-fill: white;
+}
+
+.products-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+        -fx-border-color: GRAY;
+        -fx-border-width: 2 2 1 2;
+        -fx-border-radius:12 12 0 0;
+        -fx-background-radius: 12 12 0 0;
+        -fx-spacing: 20;
+}
+
+.price-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+        -fx-border-color: GRAY;
+        -fx-border-width: 1 2 2 2;
+        -fx-border-radius: 0 0 12 12;
+        -fx-background-radius: 0 0 12 12;
+        -fx-spacing: 20;
+}
+
+.price-panel .label {
+    -fx-text-fill: white;
+}
+
+.products-panel .label {
+    -fx-text-fill: white;
+}
+
+.price-panel .product-info{
     -fx-text-fill: #696E82;
 }
 

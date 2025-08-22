@@ -66,7 +66,7 @@ public class Controller {
     private final ObservableList<Button> updateButtons = FXCollections.observableArrayList();
     private final ObservableList<CheckBox> productsCheckBoxes = FXCollections.observableArrayList();
     //private byte[] uploadImageBytes;
-    private TextField nameInput, stockInput, srpInput, buyingPriceInput, manufacturerInput, customerNameInput;
+    private TextField nameInput, stockInput, srpInput, buyingPriceInput, manufacturerInput, sellingPriceInput ,customerNameInput;
     private boolean ascButtonActive = true;
     private boolean initialized;
 
@@ -81,6 +81,8 @@ public class Controller {
      - Called by default
      */
     public void initialize(){
+
+        productsScrollPane.getStyleClass().add("main-scroll-pane");
 
         if(!initialized){
             sortByComboBox.setItems(FXCollections.observableArrayList("ID", "Name", "Stock", "Manufacturer"));
@@ -216,6 +218,12 @@ public class Controller {
             if(!(manufacturerInput.getText().isBlank())){
                 product.setManufacturer(manufacturerInput.getText());
             }
+            if(!(buyingPriceInput.getText().isBlank())){
+                product.setBuyingPrice(Integer.parseInt(buyingPriceInput.getText()));
+            }
+            if(!(sellingPriceInput.getText().isBlank())){
+                product.setSrp(Integer.parseInt(sellingPriceInput.getText()));
+            }
 
             dbManager.updateProduct(product);
             initialize();
@@ -238,24 +246,59 @@ public class Controller {
         addNewProductAlert.setHeaderText("Update Product");
         addNewProductAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 
-
         //Button uploadImageBtn = new Button("Upload Image");
         //uploadImageBtn.setPrefSize(100,20);
 
+        Label spaceLabel = new Label(" ");
+        Label spaceLabel2 = new Label(" ");
+        Label spaceLabel3 = new Label(" ");
+        Label spaceLabel4 = new Label("       ");
+        Label spaceLabel5 = new Label("       ");
+
+        Label nameLabel = new Label("Name: ");
         this.nameInput = new TextField();
         nameInput.setPromptText(product.getName());
 
+        Label stockLabel = new Label("Stock: ");
         this.stockInput = new TextField();
         stockInput.setPromptText("" + product.getStock());
 
+        Label manufacturerLabel = new Label("Manufacturer: ");
         this.manufacturerInput = new TextField();
         manufacturerInput.setPromptText(product.getManufacturer());
 
+        Label buyingPriceLabel = new Label("Buying Price: ");
+        this.buyingPriceInput = new TextField();
+        buyingPriceInput.setPromptText("" + product.getBuyingPrice());
+
+        Label sellingPriceLabel = new Label("Selling Price: ");
+        this.sellingPriceInput = new TextField();
+        sellingPriceInput.setPromptText("" + product.getSrp());
+
+
         GridPane gridPane = new GridPane();
         //gridPane.add(uploadImageBtn, 0, 2);
-        gridPane.add(nameInput, 1 , 1);
-        gridPane.add(stockInput, 1 , 2);
-        gridPane.add(manufacturerInput, 2, 1);
+        gridPane.add(nameLabel,0,0);
+        gridPane.add(nameInput, 0 , 1);
+        gridPane.add(spaceLabel, 0, 2);
+
+        gridPane.add(stockLabel,0,3);
+        gridPane.add(stockInput, 0 , 4);
+        gridPane.add(spaceLabel2, 0, 5);
+
+        gridPane.add(manufacturerLabel,0,6);
+        gridPane.add(manufacturerInput, 0, 7);
+
+        gridPane.add(spaceLabel4, 1, 0);
+        gridPane.add(spaceLabel5, 1, 1);
+
+
+        gridPane.add(buyingPriceLabel, 2, 0);
+        gridPane.add(buyingPriceInput, 2, 1);
+        gridPane.add(spaceLabel3, 2, 2);
+
+        gridPane.add(sellingPriceLabel, 2, 3);
+        gridPane.add(sellingPriceInput, 2, 4);
 
         addNewProductAlert.getDialogPane().setContent(gridPane);
         return addNewProductAlert.showAndWait();
@@ -283,9 +326,9 @@ public class Controller {
     - Calls ProductsPanel getUpdateButton().
     -- Called by initialize().
      */
-        public void printProducts(){
+    public void printProducts(){
 
-        VBox productsVBox = new VBox(20);
+        VBox productsVBox = new VBox(0);
 
         String query = "SELECT * FROM products WHERE name LIKE ? AND stock BETWEEN ? AND ? ORDER BY " + sortByComboBox.getValue().toLowerCase() + " " + getActiveBtn();
         List<Product> products = dbManager.getProducts(query, getSearchBar(), getMinStockFilter(), getMaxStockFilter());
@@ -294,11 +337,16 @@ public class Controller {
 
             ProductsPanel panel = new ProductsPanel(product);
             productsVBox.getChildren().add(panel);
+            PricePanel pricePanel = new PricePanel(product);
+            productsVBox.getChildren().add(pricePanel);
             this.productsCheckBoxes.add(panel.getCheckBox());
             this.updateButtons.add(panel.getUpdateButton());
             panel.getUpdateButton().setOnAction(e -> updateProduct((Integer) panel.getUpdateButton().getUserData()));
+            Region spacer = new Region();
+            spacer.setMinHeight(20);
+            productsVBox.getChildren().add(spacer);
         }
-        productsVBox.setSpacing(0);
+
         productsScrollPane.setContent(productsVBox);
     }
 
@@ -602,7 +650,7 @@ public class Controller {
             this.createOrderStockTextField.add(createOrderPanel.getProductTextBox());
         }
 
-        productsVBox.setSpacing(0);
+        productsVBox.setSpacing(20);
         productsScrollPane.setContent(productsVBox);
     }
 

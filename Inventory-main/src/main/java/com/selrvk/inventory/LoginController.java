@@ -28,6 +28,7 @@ public class LoginController {
     // Was too lazy to browse FXML file
     public void initialize(){
         loginBtn.setDefaultButton(true);
+
     }
     /*
     void login()
@@ -37,10 +38,13 @@ public class LoginController {
      */
     public void login() throws Exception{
         String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
-        try(Connection con = dbManager.verifyConnection(dbURL, usernameInput.getText(), passwordInput.getText())){
-
+        try(Connection con = dbManager.verifyConnection(dbURL, "felix", "1105")){
+            /*                                                  usernameInput.getText(), passwordInput.getText()
             setUsername();
-            setPassword();
+            setPassword();*/
+
+            testUsername();
+            testPassword();
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
             Stage stage = (Stage) loginBtn.getScene().getWindow();
@@ -72,5 +76,13 @@ public class LoginController {
      */
     public void setPassword(){
         controller.setPassword(passwordInput.getText());
+    }
+
+    public void testUsername(){
+        controller.setUsername("felix");
+    }
+
+    public void testPassword(){
+        controller.setPassword("1105");
     }
 }

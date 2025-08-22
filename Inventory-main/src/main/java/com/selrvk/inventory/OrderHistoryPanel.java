@@ -15,6 +15,7 @@ public class OrderHistoryPanel extends HBox {
 
     public OrderHistoryPanel(Orders order){
 
+        this.getStyleClass().add("not-main-panels-ig");
         this.getChildren().clear();
         this.order = order;
         this.setPrefWidth(850);

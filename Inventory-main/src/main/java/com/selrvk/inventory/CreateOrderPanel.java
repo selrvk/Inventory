@@ -16,6 +16,8 @@ public class CreateOrderPanel extends HBox {
     private TextField productTextBox;
 
     public CreateOrderPanel(Product product){
+
+        this.getStyleClass().add("products-panel");
         this.getChildren().clear();
         this.product = product;
         this.setPrefWidth(850);
@@ -37,29 +39,40 @@ public class CreateOrderPanel extends HBox {
         Label idLabel = new Label("" + product.getId());
         idLabel.setFont(new Font("Montserrat", 20));
         idLabel.setMaxWidth(50);
+        idLabel.setMaxHeight(70);
 
         Label nameLabel = new Label(product.getName());
         nameLabel.setFont(new Font("Montserrat", 18));
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(230);
+        nameLabel.setMaxHeight(70);
 
         Label stockLabel = new Label("" + product.getStock());
         stockLabel.setFont(new Font("Montserrat", 20));
         stockLabel.setMaxWidth(80);
+        stockLabel.setMaxHeight(70);
 
         Label srpLabel = new Label("" + product.getSrp());
         srpLabel.setFont(new Font("Montserrat", 20));
         srpLabel.setMaxWidth(80);
+        srpLabel.setMaxHeight(70);
 
         Label buyingPriceLabel = new Label("" + product.getBuyingPrice());
         buyingPriceLabel.setFont(new Font("Montserrat", 20));
         buyingPriceLabel.setMaxWidth(120);
+        buyingPriceLabel.setMaxHeight(70);
 
         HBox.setHgrow(idLabel, Priority.ALWAYS);
         HBox.setHgrow(nameLabel, Priority.ALWAYS);
         HBox.setHgrow(stockLabel, Priority.ALWAYS);
         HBox.setHgrow(srpLabel, Priority.ALWAYS);
         HBox.setHgrow(buyingPriceLabel, Priority.ALWAYS);
+
+        idLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
+        nameLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
+        stockLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
+        srpLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
+        buyingPriceLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
 
         this.getChildren().addAll(productTextBox, idLabel, nameLabel, stockLabel, srpLabel, buyingPriceLabel);
     }

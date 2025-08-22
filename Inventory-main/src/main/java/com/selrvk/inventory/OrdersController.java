@@ -38,6 +38,8 @@ public class OrdersController {
 
     public void initialize(){
 
+        pendingOrdersPane.getStyleClass().add("main-scroll-pane");
+        ordersProductsPane.getStyleClass().add("order-products-panel");
         inventoryButton.setOnAction(e -> openInventory());
         orderHistoryButton.setOnAction(e -> openOrderHistory());
 

@@ -39,7 +39,7 @@
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <ScrollPane fx:id="orderHistoryPane" layoutX="376.0" layoutY="225.0" prefHeight="477.0" prefWidth="873.0" />
+      <ScrollPane fx:id="orderHistoryPane" layoutX="376.0" layoutY="225.0" prefHeight="477.0" prefWidth="873.0" stylesheets="@styles.css" />
       <ScrollPane fx:id="orderHistoryProductsPane" layoutX="14.0" layoutY="225.0" prefHeight="477.0" prefWidth="354.0" style="-fx-background-color: #222831;" stylesheets="@styles.css" />
       <Label layoutX="409.0" layoutY="167.0" prefHeight="24.0" prefWidth="122.0" text="Date Ordered" textFill="WHITE">
          <font>
