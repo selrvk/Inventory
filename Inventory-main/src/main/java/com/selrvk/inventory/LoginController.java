@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.*;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -38,13 +39,10 @@ public class LoginController {
      */
     public void login() throws Exception{
         String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
-        try(Connection con = dbManager.verifyConnection(dbURL, "felix", "1105")){
-            /*                                                  usernameInput.getText(), passwordInput.getText()
-            setUsername();
-            setPassword();*/
+        try(Connection con = dbManager.verifyConnection(dbURL, usernameInput.getText(), passwordInput.getText())){
 
-            testUsername();
-            testPassword();
+            setUsername();
+            setPassword();
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
             Stage stage = (Stage) loginBtn.getScene().getWindow();
@@ -58,6 +56,7 @@ public class LoginController {
             stage.show();
 
         } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Invalid Login", "Notice", JOptionPane.ERROR_MESSAGE);
             System.out.println(e.getMessage());
         }
     }
@@ -76,13 +75,5 @@ public class LoginController {
      */
     public void setPassword(){
         controller.setPassword(passwordInput.getText());
-    }
-
-    public void testUsername(){
-        controller.setUsername("felix");
-    }
-
-    public void testPassword(){
-        controller.setPassword("1105");
     }
 }
