@@ -38,21 +38,21 @@ public class LoginController {
     - Calls setUsername() and setPassword() if the inputs provided are valid.
      */
     public void login() throws Exception{
-        String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
+        String dbURL = "jdbc:mysql://localhost:3306/inventory";
         try(Connection con = dbManager.verifyConnection(dbURL, usernameInput.getText(), passwordInput.getText())){
 
             setUsername();
             setPassword();
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
             Stage stage = (Stage) loginBtn.getScene().getWindow();
-            double x = (screenBounds.getWidth() - stage.getWidth()) / 3.5;
-            double y = (screenBounds.getHeight() - stage.getHeight()) / 3.5;
-            stage.setX(x);
-            stage.setY(y);
             stage.setTitle("Main Page");
             stage.setResizable(false);
             stage.setScene(new Scene(root));
+
+            stage.setMaximized(true);
+
             stage.show();
 
         } catch (SQLException e){

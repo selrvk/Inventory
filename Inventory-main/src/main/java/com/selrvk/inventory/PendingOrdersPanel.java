@@ -18,9 +18,8 @@ public class PendingOrdersPanel extends HBox {
         this.getStyleClass().add("not-main-panels-ig");
         this.getChildren().clear();
         this.order = order;
-        this.setPrefWidth(850);
-        this.setPrefHeight(70);
-        this.setSpacing(20);
+        this.setPrefWidth(830);
+        this.setPrefHeight(100);
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null , new BorderWidths(1))));
         printComponents();
 
@@ -29,29 +28,34 @@ public class PendingOrdersPanel extends HBox {
     public void printComponents(){
 
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setPadding(new Insets(5,0,0,30));
+        this.setPadding(new Insets(0,20,0,30));
 
         this.confirmOrderButton = new Button("Confirm");
         this.confirmOrderButton.setUserData((order.getOrder_id()));
+        this.confirmOrderButton.setPrefWidth(100);
 
-        this.expandOrderDetailsButton = new Button("Expand Details");
+        this.expandOrderDetailsButton = new Button("Expand");
+        this.expandOrderDetailsButton.getStyleClass().add("expand-order-button");
         this.expandOrderDetailsButton.setUserData((order.getOrder_id()));
+        this.expandOrderDetailsButton.setPrefWidth(100);
 
-        this.cancelOrderButton = new Button("Cancel Order");
+        this.cancelOrderButton = new Button("Cancel");
+        this.cancelOrderButton.getStyleClass().add("cancel-order-button");
         this.cancelOrderButton.setUserData((order.getOrder_id()));
+        this.cancelOrderButton.setPrefWidth(100);
 
         Label idLabel = new Label("" + order.getOrder_id());
         idLabel.setFont(new Font("Montserrat", 20));
-        idLabel.setMaxWidth(100);
+        idLabel.setPrefWidth(100);
 
         Label dateLabel = new Label("" + order.getDate());
         dateLabel.setFont(new Font("Montserrat", 20));
-        dateLabel.setMaxWidth(170);
+        dateLabel.setPrefWidth(170);
 
         Label customerLabel = new Label(order.getCustomer_name());
         customerLabel.setFont(new Font("Montserrat", 20));
         customerLabel.setWrapText(true);
-        customerLabel.setMaxWidth(200);
+        customerLabel.setPrefWidth(170);
 
         HBox.setHgrow(idLabel, Priority.ALWAYS);
         HBox.setHgrow(dateLabel, Priority.ALWAYS);

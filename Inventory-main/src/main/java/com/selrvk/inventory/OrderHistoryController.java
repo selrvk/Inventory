@@ -63,7 +63,6 @@ public class OrderHistoryController {
     public void expandDetails(Orders order){
 
         VBox ordersProductsVBox = new VBox(20);
-        ordersProductsVBox.setPadding(new Insets(5,5,5,20));
 
         List<OrdersProducts> ordersProducts = dbManager.getOrderHistoryProducts(order);
 
@@ -85,6 +84,8 @@ public class OrderHistoryController {
             stage.setTitle("Main Page");
             stage.setScene(new Scene(root));
             stage.show();
+
+            stage.setMaximized(true);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

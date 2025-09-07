@@ -8,7 +8,7 @@ public class DatabaseManager {
     private static String username , password;
 
     public Connection connect() throws SQLException{
-        String dbURL = "jdbc:mysql://192.168.1.2:3306/inventory";
+        String dbURL = "jdbc:mysql://localhost:3306/inventory";
         return DriverManager.getConnection(dbURL, username, password);
     }
 
@@ -26,8 +26,8 @@ public class DatabaseManager {
 
             prstm.setString(1, product.getName());
             prstm.setInt(2, product.getStock());
-            prstm.setInt(3, product.getSrp());
-            prstm.setInt(4, product.getBuyingPrice());
+            prstm.setDouble(3, product.getSrp());
+            prstm.setDouble(4, product.getBuyingPrice());
             prstm.setString(5, product.getManufacturer());
 
             prstm.executeUpdate();
@@ -68,8 +68,8 @@ public class DatabaseManager {
 
             stmt.setString(1, product.getName());
             stmt.setInt(2, product.getStock());
-            stmt.setInt(3, product.getSrp() );
-            stmt.setInt(4, product.getBuyingPrice());
+            stmt.setDouble(3, product.getSrp() );
+            stmt.setDouble(4, product.getBuyingPrice());
             stmt.setString(5, product.getManufacturer());
             stmt.setInt(6, product.getId());
 
@@ -101,8 +101,8 @@ public class DatabaseManager {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getInt("stock"),
-                        rs.getInt("srp"),
-                        rs.getInt("buying_price"),
+                        rs.getDouble("srp"),
+                        rs.getDouble("buying_price"),
                         rs.getString("manufacturer")
                 );
 
@@ -130,8 +130,8 @@ public class DatabaseManager {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getInt("stock"),
-                        rs.getInt("srp"),
-                        rs.getInt("buying_price"),
+                        rs.getDouble("srp"),
+                        rs.getDouble("buying_price"),
                         rs.getString("manufacturer")
                 );
             }
@@ -172,7 +172,7 @@ public class DatabaseManager {
                         prstmOrderProducts.setInt(2, ordersProducts.getProduct_id());
                         prstmOrderProducts.setString(3, ordersProducts.getProduct_name());
                         prstmOrderProducts.setInt(4, ordersProducts.getOrder_quantity());
-                        prstmOrderProducts.setInt(5, ordersProducts.getProduct_price());
+                        prstmOrderProducts.setDouble(5, ordersProducts.getProduct_price());
 
                         prstmOrderProducts.executeUpdate();
                     }
@@ -329,7 +329,7 @@ public class DatabaseManager {
                         rs.getString(   "product_name"),
                         rs.getInt("product_id"),
                         rs.getInt("order_quantity"),
-                        rs.getInt("product_price")
+                        rs.getDouble("product_price")
                 );
                 ordersProducts.add(orderProduct);
             }
@@ -387,7 +387,7 @@ public class DatabaseManager {
                         rs.getString(   "product_name"),
                         rs.getInt("product_id"),
                         rs.getInt("order_quantity"),
-                        rs.getInt("product_price")
+                        rs.getDouble("product_price")
                 );
                 ordersProducts.add(orderProduct);
             }

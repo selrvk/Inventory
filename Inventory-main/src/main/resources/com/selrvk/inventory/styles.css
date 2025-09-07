@@ -52,8 +52,8 @@
     -fx-background-color: rgba(255, 255, 255, 0.1);
         -fx-border-color: GRAY;
         -fx-border-width: 2 2 1 2;
-        -fx-border-radius:12 12 0 0;
-        -fx-background-radius: 12 12 0 0;
+        -fx-border-radius:12 12 12 12;
+        -fx-background-radius: 12 12 12 12;
         -fx-spacing: 20;
 }
 
@@ -77,6 +77,120 @@
 .price-panel .product-info{
     -fx-text-fill: #696E82;
 }
+
+.button {
+    -fx-background-color: linear-gradient(to bottom, #4CAF50, #388E3C);
+    -fx-text-fill: white;
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0.5, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #66BB6A, #43A047);
+}
+
+.button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #2E7D32, #1B5E20);
+    -fx-translate-y: 1px;
+}
+
+.button:disabled {
+    -fx-background-color: #555;
+    -fx-text-fill: #ccc;
+    -fx-opacity: 0.7;
+}
+
+.expand-order-button {
+    -fx-background-color: linear-gradient(to bottom, #202329, #000000);
+    -fx-text-fill: white;
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0.5, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.expand-order-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #141414, #000000);
+}
+
+.cancel-order-button {
+    -fx-background-color: linear-gradient(to bottom, #821C05, #BA2909);
+    -fx-text-fill: white;
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 4, 0.5, 0, 2);
+    -fx-transition: all 0.3s ease;
+}
+
+.cancel-order-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #7A0505, #520202);
+}
+
+.button-tabs {
+
+    -fx-background-color: linear-gradient(to bottom, #12171A, #222831);
+    -fx-border-radius: 20 20 0 0;
+    -fx-background-radius: 20 20 0 0;
+    -fx-font-size: 20px;
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: transparent;
+    -fx-transition: all 0.3s ease;
+    -fx-effect: null;
+}
+
+.main-buttons {
+    -fx-background-color: linear-gradient(to bottom, #E3E3E3, #FFFFFF);
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: transparent;
+    -fx-transition: all 0.3s ease;
+    -fx-effect: null;
+}
+
+.combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: "Franklin Gothic Medium";
+    -fx-border-color: #222831;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 15px;
+    -fx-effect: null;
+}
+
+.combo-box:hover {
+    -fx-border-color: #2980b9;
+}
+
+.combo-box:focused {
+    -fx-border-color: #1abc9c;
+}
+
+
+
 
 
 

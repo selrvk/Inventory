@@ -18,7 +18,7 @@ public class ProductsPanel extends HBox {
         this.getStyleClass().add("products-panel");
         this.getChildren().clear();
         this.product = product;
-        this.setPrefWidth(850);
+        this.setPrefWidth(1470);
         this.setPrefHeight(70);
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null , new BorderWidths(1))));
         printComponents();
@@ -27,7 +27,7 @@ public class ProductsPanel extends HBox {
     public void printComponents(){
 
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setPadding(new Insets(0,0,0,45));
+        this.setPadding(new Insets(0,0,0,40));
 
         this.productCheckBox = new CheckBox();
         this.productCheckBox.setUserData(product.getId());
@@ -38,40 +38,64 @@ public class ProductsPanel extends HBox {
         // ID label
         Label idLabel = new Label("" + product.getId());
         idLabel.setFont(new Font("Montserrat", 20));
-        idLabel.setMaxWidth(50);
+        idLabel.setPrefWidth(100);
         idLabel.setMaxHeight(70);
 
         // Name label
         Label nameLabel = new Label(product.getName());
         nameLabel.setFont(new Font("Montserrat", 18));
         nameLabel.setWrapText(true);
-        nameLabel.setMaxWidth(230);
+        nameLabel.setPrefWidth(500);
         nameLabel.setMaxHeight(70);
 
         // Stock label
         Label stockLabel = new Label("" + product.getStock());
         stockLabel.setFont(new Font("Montserrat", 20));
-        stockLabel.setMaxWidth(80);
+        stockLabel.setPrefWidth(150);
         stockLabel.setMaxHeight(70);
 
         // Manufacturer label
         Label manufacturerLabel = new Label(product.getManufacturer());
         manufacturerLabel.setFont(new Font("Montserrat", 20));
         manufacturerLabel.setWrapText(true);
-        manufacturerLabel.setMaxWidth(230);
+        manufacturerLabel.setPrefWidth(250);
         manufacturerLabel.setMaxHeight(70);
+
+        // SRP Label
+        Label srpLabel = new Label("" + product.getSrp());
+        srpLabel.setFont(new Font("Montserrat", 20));
+        srpLabel.setWrapText(true);
+        srpLabel.setPrefWidth(200);
+        srpLabel.setMaxHeight(70);
+
+        // Buy Label
+        Label buyLabel = new Label("" + product.getBuyingPrice());
+        buyLabel.setFont(new Font("Montserrat", 20));
+        buyLabel.setWrapText(true);
+        buyLabel.setPrefWidth(200);
+        buyLabel.setMaxWidth(200);
+        buyLabel.setMaxHeight(70);
 
         HBox.setHgrow(idLabel, Priority.ALWAYS);
         HBox.setHgrow(nameLabel, Priority.ALWAYS);
         HBox.setHgrow(stockLabel, Priority.ALWAYS);
         HBox.setHgrow(manufacturerLabel, Priority.ALWAYS);
+        HBox.setHgrow(srpLabel, Priority.ALWAYS);
+        HBox.setHgrow(buyLabel, Priority.ALWAYS);
+
+        updateButton.setPrefWidth(120);
+
+        HBox.setMargin(updateButton, new Insets(0,15,0,0));
+
 
         idLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
         nameLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
         stockLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
         manufacturerLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
+        srpLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
+        buyLabel.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, null, new BorderWidths(0, 1, 0, 0))));
 
-        this.getChildren().addAll(productCheckBox, idLabel, nameLabel, stockLabel, manufacturerLabel, updateButton);
+        this.getChildren().addAll(productCheckBox, idLabel, nameLabel, manufacturerLabel ,stockLabel, srpLabel, buyLabel, updateButton);
     }
 
     public CheckBox getCheckBox(){ return this.productCheckBox; }

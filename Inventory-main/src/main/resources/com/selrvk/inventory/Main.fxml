@@ -11,10 +11,10 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.Controller">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.Controller">
    <children>
-      <Rectangle fill="#222831" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-      <Rectangle fill="#363e4a" height="107.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+      <Rectangle fill="#222831" height="1080.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1920.0" />
+      <Rectangle fill="#363e4a" height="107.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1920.0" />
       <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="-10.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../selrvklogo.png" />
@@ -25,30 +25,33 @@
             <Image url="@../../../ims.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="873.0" />
-      <ScrollPane fx:id="productsScrollPane" layoutX="376.0" layoutY="277.0" prefHeight="425.0" prefWidth="873.0" stylesheets="@styles.css" />
-      <TextField fx:id="searchBar" layoutX="395.0" layoutY="156.0" prefHeight="47.0" prefWidth="418.0" promptText="Search..." />
-      <Button fx:id="addNewProductBtn" layoutX="819.0" layoutY="156.0" mnemonicParsing="false" onAction="#addNewProduct" prefHeight="47.0" prefWidth="132.0" text="+ NEW">
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="907.0" />
+      <ScrollPane fx:id="productsScrollPane" layoutX="376.0" layoutY="277.0" prefHeight="760.0" prefWidth="1500.0" stylesheets="@styles.css" />
+      <TextField fx:id="searchBar" layoutX="395.0" layoutY="156.0" prefHeight="47.0" prefWidth="418.0" promptText="Search...">
+         <font>
+            <Font name="Franklin Gothic Medium" size="21.0" />
+         </font></TextField>
+      <Button fx:id="addNewProductBtn" layoutX="819.0" layoutY="156.0" mnemonicParsing="false" onAction="#addNewProduct" prefHeight="47.0" prefWidth="132.0" styleClass="main-buttons" stylesheets="@styles.css" text="+ NEW">
          <font>
             <Font name="Franklin Gothic Medium" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="deleteProductBtn" layoutX="957.0" layoutY="156.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="47.0" prefWidth="132.0" text="DELETE">
+      <Button fx:id="deleteProductBtn" layoutX="957.0" layoutY="156.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="47.0" prefWidth="132.0" styleClass="main-buttons" stylesheets="@styles.css" text="DELETE">
          <font>
             <Font name="Franklin Gothic Medium" size="22.0" />
          </font>
       </Button>
-      <Button fx:id="cancelOrderButton" layoutX="1096.0" layoutY="156.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="132.0" text="CANCEL ORDER">
+      <Button fx:id="cancelOrderButton" layoutX="1096.0" layoutY="156.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="175.0" styleClass="cancel-order-button" stylesheets="@styles.css" text="CANCEL ORDER">
          <font>
             <Font name="Franklin Gothic Medium" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="createOrderButton" layoutX="1096.0" layoutY="156.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="132.0" text="CREATE ORDER">
+      <Button fx:id="createOrderButton" layoutX="1096.0" layoutY="156.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="175.0" styleClass="main-buttons" stylesheets="@styles.css" text="CREATE ORDER">
          <font>
             <Font name="Franklin Gothic Medium" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="confirmOrderButton" disable="true" layoutX="939.0" layoutY="156.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="150.0" text="CONFIRM ORDER" visible="false">
+      <Button fx:id="confirmOrderButton" disable="true" layoutX="890.0" layoutY="156.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="200.0" styleClass="main-buttons" stylesheets="@styles.css" text="CONFIRM ORDER" visible="false">
          <font>
             <Font name="Franklin Gothic Medium" size="16.0" />
          </font>
@@ -59,13 +62,13 @@
             <Font name="Franklin Gothic Medium" size="22.0" />
          </font>
       </Label>
-      <ComboBox fx:id="sortByComboBox" layoutX="40.0" layoutY="339.0" prefWidth="150.0" />
-      <Button fx:id="descendingBtn" focusTraversable="false" layoutX="218.0" layoutY="335.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Descending">
+      <ComboBox fx:id="sortByComboBox" layoutX="40.0" layoutY="335.0" prefHeight="40.0" prefWidth="150.0" styleClass="combo-box" stylesheets="@styles.css" />
+      <Button fx:id="descendingBtn" focusTraversable="false" layoutX="205.0" layoutY="335.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="135.0" styleClass="main-buttons" stylesheets="@styles.css" text="Descending">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="ascendingBtn" focusTraversable="false" layoutX="218.0" layoutY="335.0" mnemonicParsing="false" onAction="#sortProducts" prefHeight="25.0" prefWidth="120.0" text="Ascending">
+      <Button fx:id="ascendingBtn" focusTraversable="false" layoutX="205.0" layoutY="335.0" mnemonicParsing="false" onAction="#sortProducts" prefHeight="40.0" prefWidth="135.0" styleClass="main-buttons" stylesheets="@styles.css" text="Ascending">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
@@ -83,45 +86,90 @@
       </Label>
       <TextField fx:id="stockMin" layoutX="161.0" layoutY="450.0" prefHeight="34.0" prefWidth="61.0" promptText="Min" />
       <TextField fx:id="stockMax" layoutX="256.0" layoutY="450.0" prefHeight="34.0" prefWidth="61.0" promptText="Max" />
-      <Button fx:id="filterBtn" layoutX="45.0" layoutY="654.0" mnemonicParsing="false" onAction="#applyFilters" prefHeight="25.0" prefWidth="293.0" text="Apply Filters">
+      <Button fx:id="filterBtn" layoutX="45.0" layoutY="654.0" mnemonicParsing="false" onAction="#applyFilters" prefHeight="25.0" prefWidth="293.0" styleClass="main-buttons" stylesheets="@styles.css" text="Apply Filters">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="376.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Inventory">
+      <Button disable="true" layoutX="376.0" layoutY="56.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="230.0" styleClass="button-tabs" stylesheets="@styles.css" text="Inventory">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="pendingOrdersButton" layoutX="606.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Pending Orders">
+      <Button fx:id="pendingOrdersButton" layoutX="606.0" layoutY="56.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="230.0" styleClass="button-tabs" stylesheets="@styles.css" text="Pending Orders">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="orderHistoryButton" layoutX="836.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Order History">
+      <Button fx:id="orderHistoryButton" layoutX="836.0" layoutY="56.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="230.0" styleClass="button-tabs" stylesheets="@styles.css" text="Order History">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Label layoutX="456.0" layoutY="227.0" prefHeight="41.0" prefWidth="27.0" text="ID" textFill="WHITE">
+      <Label layoutX="456.0" layoutY="240.0" prefHeight="20.0" prefWidth="27.0" text="ID" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="594.0" layoutY="227.0" prefHeight="41.0" prefWidth="68.0" text="Name" textFill="WHITE">
+      <Label layoutX="733.0" layoutY="240.0" prefHeight="20.0" prefWidth="68.0" text="Name" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="779.0" layoutY="227.0" prefHeight="41.0" prefWidth="68.0" text="Stock" textFill="WHITE">
+      <Label layoutX="1275.0" layoutY="240.0" prefHeight="20.0" prefWidth="68.0" text="Stock" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="876.0" layoutY="234.0" prefHeight="28.0" prefWidth="213.0" text="Manufacturer/Brand" textFill="WHITE">
+      <Label layoutX="1015.0" layoutY="240.0" prefHeight="20.0" prefWidth="213.0" text="Manufacturer/Brand" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="24.0" />
          </font>
       </Label>
+      <Label layoutX="1440.0" layoutY="240.0" prefHeight="20.0" prefWidth="68.0" text="SRP" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="1590.0" layoutY="240.0" prefHeight="20.0" prefWidth="99.0" text="Buy Price" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="24.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="create_order_labelsPane" layoutX="373.0" layoutY="240.0" prefHeight="20.0" prefWidth="1440.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#222831" height="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1440.0" />
+            <Label layoutX="20.0" prefHeight="20.0" prefWidth="220.0" text="Qty. add to order" textFill="WHITE">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="380.0" prefHeight="20.0" prefWidth="68.0" text="Name" textFill="WHITE">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="970.0" prefHeight="20.0" prefWidth="68.0" text="Stock" textFill="WHITE">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="700.0" prefHeight="20.0" prefWidth="213.0" text="Manufacturer/Brand" textFill="WHITE">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="1150.0" prefHeight="20.0" prefWidth="68.0" text="SRP" textFill="WHITE">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="1320.0" prefHeight="20.0" prefWidth="99.0" text="Buy Price" textFill="WHITE">
+               <font>
+                  <Font name="Franklin Gothic Medium" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

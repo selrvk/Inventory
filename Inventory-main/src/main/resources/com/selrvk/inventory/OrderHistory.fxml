@@ -9,10 +9,10 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.OrderHistoryController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.selrvk.inventory.OrderHistoryController">
    <children>
-      <Rectangle fill="#222831" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-      <Rectangle fill="#363e4a" height="107.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+      <Rectangle fill="#222831" height="1080.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1920.0" />
+      <Rectangle fill="#363e4a" height="107.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1920.0" />
       <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="-10.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../selrvklogo.png" />
@@ -23,41 +23,63 @@
             <Image url="@../../../ims.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="376.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="873.0" />
-      <Button fx:id="inventoryButton" layoutX="376.0" layoutY="73.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="230.0" text="Inventory">
+      <Button fx:id="inventoryButton" layoutX="376.0" layoutY="56.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="230.0" styleClass="button-tabs" stylesheets="@styles.css" text="Inventory">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="pendingOrdersButton" layoutX="606.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Pending Orders">
+      <Button fx:id="pendingOrdersButton" layoutX="606.0" layoutY="56.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="230.0" styleClass="button-tabs" stylesheets="@styles.css" text="Pending Orders">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="orderHistoryButton" disable="true" layoutX="836.0" layoutY="73.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="230.0" text="Order History">
+      <Button fx:id="orderHistoryButton" disable="true" layoutX="836.0" layoutY="56.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="230.0" styleClass="button-tabs" stylesheets="@styles.css" text="Order History">
          <font>
             <Font name="Franklin Gothic Medium" size="18.0" />
          </font>
       </Button>
-      <ScrollPane fx:id="orderHistoryPane" layoutX="376.0" layoutY="225.0" prefHeight="477.0" prefWidth="873.0" stylesheets="@styles.css" />
-      <ScrollPane fx:id="orderHistoryProductsPane" layoutX="14.0" layoutY="225.0" prefHeight="477.0" prefWidth="354.0" style="-fx-background-color: #222831;" stylesheets="@styles.css" />
-      <Label layoutX="409.0" layoutY="167.0" prefHeight="24.0" prefWidth="122.0" text="Date Ordered" textFill="WHITE">
+      <ScrollPane fx:id="orderHistoryPane" layoutX="1057.0" layoutY="285.0" prefHeight="700.0" prefWidth="850.0" stylesheets="@styles.css" />
+      <ScrollPane fx:id="orderHistoryProductsPane" layoutX="14.0" layoutY="285.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #222831;" stylesheets="@styles.css" />
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="51.0" layoutX="376.0" layoutY="143.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="354.0" />
+      <Label layoutX="496.0" layoutY="157.0" prefHeight="24.0" prefWidth="114.0" text="Order Details" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="579.0" layoutY="167.0" prefHeight="24.0" prefWidth="72.0" text="Order ID" textFill="WHITE">
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="51.0" layoutX="14.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="997.0" />
+      <Label alignment="CENTER" layoutX="40.0" layoutY="214.0" prefHeight="20.0" prefWidth="500.0" text="Name" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="705.0" layoutY="167.0" prefHeight="24.0" prefWidth="89.0" text="Customer" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="580.0" layoutY="214.0" prefHeight="20.0" prefWidth="150.0" text="Quantity" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="20.0" />
          </font>
       </Label>
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="76.0" layoutX="14.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="354.0" />
-      <Label layoutX="134.0" layoutY="167.0" prefHeight="24.0" prefWidth="114.0" text="Order Details" textFill="WHITE">
+      <Label alignment="CENTER" layoutX="804.0" layoutY="214.0" prefHeight="20.0" prefWidth="200.0" text="Price per item" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="20.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="51.0" layoutX="1057.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="850.0" />
+      <Label layoutX="1084.0" layoutY="214.0" prefHeight="20.0" prefWidth="117.0" text="Date Ordered" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="1250.0" layoutY="214.0" prefHeight="20.0" prefWidth="74.0" text="Order ID" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="1400.0" layoutY="214.0" prefHeight="20.0" prefWidth="87.0" text="Customer" textFill="WHITE">
+         <font>
+            <Font name="Franklin Gothic Medium" size="20.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#31363f" height="51.0" layoutX="1280.0" layoutY="143.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="354.0" />
+      <Label layoutX="1395.0" layoutY="157.0" prefHeight="24.0" prefWidth="158.0" text="Pending Orders" textFill="WHITE">
          <font>
             <Font name="Franklin Gothic Medium" size="20.0" />
          </font>

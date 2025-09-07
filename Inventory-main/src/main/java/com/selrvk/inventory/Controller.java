@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -57,6 +58,8 @@ public class Controller {
     private Button cancelOrderButton;
     @FXML
     private Button confirmOrderButton;
+
+    @FXML private AnchorPane create_order_labelsPane;
 
     private final DatabaseManager dbManager = new DatabaseManager();
 
@@ -145,7 +148,7 @@ public class Controller {
         if(!nameInput.getText().isBlank() && !stockInput.getText().isBlank() && !manufacturerInput.getText().isBlank()) {
             if (result.isPresent() && result.get() == ButtonType.OK) {
 
-                dbManager.addNewProduct(new Product(nameInput.getText(), Integer.parseInt(stockInput.getText()), Integer.parseInt(srpInput.getText()), Integer.parseInt(buyingPriceInput.getText()),manufacturerInput.getText()));
+                dbManager.addNewProduct(new Product(nameInput.getText(), Integer.parseInt(stockInput.getText()), Double.parseDouble(srpInput.getText()), Double.parseDouble(buyingPriceInput.getText()),manufacturerInput.getText()));
                 initialize();
             } else if(result.isPresent() && result.get() == ButtonType.CANCEL) {
                 showAlert("Cancelled Request");
@@ -337,8 +340,8 @@ public class Controller {
 
             ProductsPanel panel = new ProductsPanel(product);
             productsVBox.getChildren().add(panel);
-            PricePanel pricePanel = new PricePanel(product);
-            productsVBox.getChildren().add(pricePanel);
+            //PricePanel pricePanel = new PricePanel(product);
+            //productsVBox.getChildren().add(pricePanel);
             this.productsCheckBoxes.add(panel.getCheckBox());
             this.updateButtons.add(panel.getUpdateButton());
             panel.getUpdateButton().setOnAction(e -> updateProduct((Integer) panel.getUpdateButton().getUserData()));
@@ -636,6 +639,7 @@ public class Controller {
         productsCheckBoxes.clear();
         initialize();
 
+        this.create_order_labelsPane.setVisible(true);
         productsScrollPane.setContent(null);
 
         VBox productsVBox = new VBox(20);
@@ -664,12 +668,14 @@ public class Controller {
         cancelOrderButton.setDisable(true);
         createOrderButton.setVisible(true);
         createOrderButton.setDisable(false);
-        initialize();
+        this.create_order_labelsPane.setVisible(false);
 
+        initialize();
     }
 
     public void confirmOrder(){
 
+        Date date = new Date(System.currentTimeMillis());
         Optional<ButtonType> result = initializeCreateOrderCustomerName();
         boolean valid = true;
 
@@ -678,7 +684,6 @@ public class Controller {
             if(!(customerNameInput.getText().isBlank())) {
 
                 List<TextField> inputs = getTextFieldsWithInput();
-                Date date = new Date(System.currentTimeMillis());
 
                 for(TextField textField : inputs){
 
@@ -686,12 +691,23 @@ public class Controller {
 
                     if(Integer.parseInt(textField.getText()) <= product.getStock()){
 
-                        createOrderProducts.add(new OrdersProducts(product.getName(), product.getId() ,Integer.parseInt(textField.getText()),product.getSrp()));
+                        System.out.println("Product name: " + product.getName());
+                        System.out.println("Product stock: " + product.getStock());
+                        System.out.println("Get text: " + textField.getText() + "\n");
+
+                        createOrderProducts.add(new OrdersProducts(product.getName(), product.getId() ,Integer.parseInt(textField.getText()), product.getSrp()));
 
                     } else {
 
                         valid = false;
                         showAlert("Not enough stock");
+                        inputs.clear();
+                        createOrderProducts.clear();
+
+                        for(TextField field : createOrderStockTextField) {
+                            field.clear();
+                        }
+
                         break;
                     }
                 }
@@ -711,6 +727,7 @@ public class Controller {
     }
 
     public List<TextField> getTextFieldsWithInput() {
+
         return createOrderStockTextField.stream()
                 .filter(textField -> !textField.getText().isEmpty())
                 .collect(Collectors.toList());
