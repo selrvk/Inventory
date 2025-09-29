@@ -1,11 +1,13 @@
 package com.selrvk.inventory;
 
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -359,29 +361,24 @@ public class Controller {
     The panel which creates and holds components for adding products.
     -- Called by addNewProduct().
      */
-    public Optional<ButtonType> initializeAddProductComponents(){
-
-        ImageView imageView = new ImageView();
-        imageView.setFitWidth(100);
-        imageView.setFitHeight(100);
+    public Optional<ButtonType> initializeAddProductComponents() {
 
         Alert addNewProductAlert = new Alert(Alert.AlertType.CONFIRMATION);
         addNewProductAlert.setHeaderText("Add New Product");
         addNewProductAlert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        addNewProductAlert.getDialogPane().getStylesheets()
+                .add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
 
-        //Button uploadImageBtn = new Button("Upload Image");
-        //uploadImageBtn.setPrefSize(100,20);
 
-        //uploadImageBtn.setOnAction(e -> imageView.setImage(uploadImage(e)));
-
+        // Create input fields
         this.nameInput = new TextField();
-        nameInput.setPromptText("Name");
+        nameInput.setPromptText("Product Name");
 
         this.stockInput = new TextField();
-        stockInput.setPromptText("Stock");
+        stockInput.setPromptText("Stock Quantity");
 
         this.srpInput = new TextField();
-        srpInput.setPromptText("SRP");
+        srpInput.setPromptText("Selling Price (SRP)");
 
         this.buyingPriceInput = new TextField();
         buyingPriceInput.setPromptText("Buying Price");
@@ -390,13 +387,30 @@ public class Controller {
         manufacturerInput.setPromptText("Manufacturer");
 
         GridPane gridPane = new GridPane();
-        //gridPane.add(imageView, 0, 1);
-        //gridPane.add(uploadImageBtn, 0, 2);
-        gridPane.add(nameInput, 1 , 1);
-        gridPane.add(stockInput, 1 , 2);
-        gridPane.add(srpInput, 2, 1);
-        gridPane.add(buyingPriceInput, 2 , 2);
-        gridPane.add(manufacturerInput, 3, 1);
+        gridPane.setHgap(15);
+        gridPane.setVgap(12);
+        gridPane.setPadding(new Insets(20, 20, 10, 20));
+
+        gridPane.add(new Label("Name:"), 0, 0);
+        gridPane.add(nameInput, 1, 0);
+
+        gridPane.add(new Label("Stock:"), 0, 1);
+        gridPane.add(stockInput, 1, 1);
+
+        gridPane.add(new Label("SRP:"), 0, 2);
+        gridPane.add(srpInput, 1, 2);
+
+        gridPane.add(new Label("Buying Price:"), 0, 3);
+        gridPane.add(buyingPriceInput, 1, 3);
+
+        gridPane.add(new Label("Manufacturer:"), 0, 4);
+        gridPane.add(manufacturerInput, 1, 4);
+
+        nameInput.setPrefWidth(200);
+        stockInput.setPrefWidth(200);
+        srpInput.setPrefWidth(200);
+        buyingPriceInput.setPrefWidth(200);
+        manufacturerInput.setPrefWidth(200);
 
         addNewProductAlert.getDialogPane().setContent(gridPane);
         return addNewProductAlert.showAndWait();
@@ -749,5 +763,12 @@ public class Controller {
         return addNewProductAlert.showAndWait();
     }
 
+    public void refresh(){
+        initialize();
+    }
+
+    public void exit(){
+        Platform.exit();
+    }
 
 }

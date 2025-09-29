@@ -1,5 +1,6 @@
 package com.selrvk.inventory;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -127,4 +128,7 @@ public class OrdersController {
         }
     }
 
+    public void exit(){
+        Platform.exit();
+    }
 }

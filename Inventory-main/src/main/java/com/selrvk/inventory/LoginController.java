@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.*;
 
 import javax.swing.*;
@@ -43,17 +44,19 @@ public class LoginController {
 
             setUsername();
             setPassword();
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Main.fxml")));
-            Stage stage = (Stage) loginBtn.getScene().getWindow();
-            stage.setTitle("Main Page");
-            stage.setResizable(false);
-            stage.setScene(new Scene(root));
+            Stage loginStage = (Stage) loginBtn.getScene().getWindow();
+            loginStage.close();
 
-            stage.setMaximized(true);
-
-            stage.show();
+// open the main window
+            Stage mainStage = new Stage();
+            mainStage.initStyle(StageStyle.UNDECORATED); // must be before show()
+            mainStage.setTitle("Main Page");
+            mainStage.setResizable(false);
+            mainStage.setMaximized(true);
+            mainStage.setScene(new Scene(root));
+            mainStage.show();
 
         } catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Invalid Login", "Notice", JOptionPane.ERROR_MESSAGE);
